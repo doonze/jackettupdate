@@ -63,7 +63,7 @@ while True:
     break
   
 print("")
-print(installpath + " set as Jackett intall root directory")
+print(installpath + " set as Jackett install root directory")
 print("")
   
   
