@@ -51,6 +51,12 @@ Root filepath to install Jackett? (Suggest /opt/. The Jackett tarball automatica
 Here you choose where to install/update Jackett. You MUST use the trailing /. (So /opt/ not /opt) or the script will fail. I could add logic to idiot proof this, but just follow instructions! Choose the ROOT path where you want Jackett installed, the tar file from Jackett github already has the /Jackett path built into it. If you choose /opt/ in other words here, Jackett will be installed to /opt/Jackett.
 
 ```
+Name of systemd Jackett service? This is the name it runs on through systemd [ex. jackett]:
+```
+Here you enter the name of your Jackett service running in systemd. If you don't have one, and are starting and stopping the server in a different way it doesn't matter what you enter here. Just disable server stop/start below. You can use either the short service name (ex. jackett) or the long service name (ex. jackett.service) systemd doesn't care.
+
+
+```
 Do we need to manually stop the server to install? (Likely only needed for Arch.) [Y/n]: 
 ```
 
