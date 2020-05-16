@@ -1,11 +1,12 @@
-# JackettUpdate (Doc not updated yet, will convert readme once app is working)
+# JackettUpdate (This DOC is a work in progress to update from forked EmbyUpdate app)
 A python script for automatically updating Jackett to the latest version on Linux distros.
 
-This script has been tested with python 2.7 and 3+. I suggest using python 3, it always tries python 3 commands first. If those fail it falls back to python 2 commands. In the end it doesn't matter, it runs the same on both. However if you run it with 3 there won't be behind the scenes exceptions happening. If you don't have 3, or have mapped 3 to python instead of python3 you may get some chatter from the app. It was tested and developed on Debian 9. I haven't tested it on any other distro but it should work fine on Ubuntu and Mint for sure, or any other Debian based distro. It has also been coded (but not tested) to work with several other distor's listed below.
+This is a self fork of my EmbyUpdate script. These scripts can be forked to update just about any github Linux project, with some work.
 
-* Backup your server before doing anything!! Install the Emby backup/restore plugin and get a good backup!
-* It's possiable to loose your settings if you are switching from a repo version to the standalone version this script installs. So make sure you have that backup!
-* If switching from repo version make sure you uninstall the repo version first (apt remove emby-server or your disto's process) or your next distro repo upgrade could switch you back to repo version. MAKE SURE YOU HAVE A BACKUP!!
+This script has been tested with python 2.7 and 3+. I suggest using python 3, it always tries python 3 commands first. If those fail it falls back to python 2 commands. In the end it doesn't matter, it runs the same on both. However if you run it with 3 there won't be behind the scenes exceptions happening. If you don't have 3, or have mapped 3 to python instead of python3 you may get some chatter from the app. It was tested and developed on Debian 10. I haven't tested it on any other distro but it should work fine on Ubuntu and Mint for sure, or any other Debian based distro. Honestly it should work on any Linux flavor, but your milage may vary.
+
+* Backup your server before doing anything!!!
+
 
 ### Prerequisites 
 
@@ -17,13 +18,14 @@ and one of these:
 ```
 python
 python3 (optional but highly suggested)
+requests (pip install requests)
 ```
 
 ### Getting Started
 
-You will need to have root/sudo/admin access to your server to use this script. It won't have access to update your server otherwise. But you have to have those access rights to install Emby anyway, so moot point.
+You will need to have root/sudo/admin access to your server to use all this scripts functions. It won't have access to restart your Jackett server otherwise. If your user has access to the directory where Jackett is installed, it WILL update Jackett, it just can't stop and start the server to pick up the changes. You can choose to select options to not stop/start the server and do it yourself if you wish however.
 
-Download the release .zip of your choice. Unzip the files into a directory you have full access to. I suggest a directory in your home directory called embyupdate. The very first time you run the script it will tell you that you have to run the config first. You'll have to run the following command and answer a few questions. Hitting enter on all but the first question will setup the defaults.
+Download the release .zip of your choice from my github. Unzip the files into a directory you have full access to. I suggest a directory in your home directory called jackettupdate. The very first time you run the script it will tell you that you have to run the config first. You'll have to run the following command and answer a few questions. Hitting enter on all but the first question will setup the defaults.
 
 ```
 sudo python embyupdate.py --config
