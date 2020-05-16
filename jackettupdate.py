@@ -174,7 +174,7 @@ if str(onlinefileversion) in str(fileversion):
     print('***')
 else:
     # If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
-    print(timestamp() + "JackettUpdate: Most recent online version is " + onlinefileversion + " and current installed version is " + fileversion + ". We're updating Emby.")
+    print(timestamp() + "JackettUpdate: Most recent online version is " + onlinefileversion + " and current installed version is " + fileversion + ". We're updating Jackett.")
     print("\n" + timestamp() + "JackettUpdate: Starting update......")
 
     try:
