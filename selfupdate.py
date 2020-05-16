@@ -42,7 +42,7 @@ def timestamp():
 	return ("<" + ts + "> ")
 
 # The github API of releases for app. This includes beta and production releases
-url = "https://api.github.com/repos/doonze/jackettupate/releases"
+url = "https://api.github.com/repos/doonze/jackettupdate/releases"
 
 # Now we're just going to see what the latest version is! If we get any funky response we'll exit the script.
 try:
@@ -63,8 +63,8 @@ try:
                 versiontype = "Stable"
                 break
 except Exception as e:
-    print(timestamp() + "JackettUpdate: We didn't get an expected response from the github api, script is exiting!")
-    print(timestamp() + "JackettUpdate: Here's the error we got -- " + str(e))
+    print(timestamp() + "JackettUpdate(self): We didn't get an expected response from the github api, script is exiting!")
+    print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
     print(e)
     sys.exit()
 
@@ -78,14 +78,14 @@ onlinefileversion = (onlineversion + "-" + versiontype)
 
 if str(onlinefileversion) in str(appversion):
     # If the latest online verson matches the last installed version then we let you know and exit
-    print(timestamp() + "JackettUpdate: App is up to date!  Current and Online versions are at " + onlinefileversion + ". Nothing to see here... move along. Script exiting!")
+    print(timestamp() + "JackettUpdate(self): App is up to date!  Current and Online versions are at " + onlinefileversion + ". Nothing to see here... move along. Script exiting!")
     sys.exit()
 else:
 	# If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
     print('')
-    print(timestamp() + "JackettUpdate: Most recent app online version is " + onlinefileversion + " and current installed version is " + appversion + ". We're updating JackettUpdate app.")
+    print(timestamp() + "JackettUpdate(self): Most recent app online version is " + onlinefileversion + " and current installed version is " + appversion + ". We're updating JackettUpdate app.")
     print('')
-    print("\n" + timestamp() + "JackettUpdate: Starting self app update......")
+    print("\n" + timestamp() + "JackettUpdate(self): Starting self app update......")
     print('')
 
    	# Here we download the zip to install
@@ -114,7 +114,7 @@ else:
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
     print('')
-    print(timestamp() + "JackettUpdate: Updating to JackettUpdate app version " + onlinefileversion + " finished! Script exiting!")
+    print(timestamp() + "JackettUpdate(self): Updating to JackettUpdate app version " + onlinefileversion + " finished! Script exiting!")
     print('')
     print("*****************************************************************************")
     print("\n")
