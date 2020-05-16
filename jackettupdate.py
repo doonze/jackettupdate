@@ -181,7 +181,7 @@ else:
         # This will stop the server on a systemd distro if it's been set to true above
         if serverstop is True:
             stopreturn = subprocess.call("systemctl stop jackett",shell=True)
-            for i in xrange(10,0,-1):
+            for i in range(10,0,-1):
                 sys.stdout.write(str(i)+' ')
                 sys.stdout.flush()
                 time.sleep(1)

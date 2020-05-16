@@ -42,7 +42,7 @@ def timestamp():
 	return ("<" + ts + "> ")
 
 # The github API of releases for app. This includes beta and production releases
-url = "https://api.github.com/repos/doonze/Embyupdate/releases"
+url = "https://api.github.com/repos/doonze/jackettupate/releases"
 
 # Now we're just going to see what the latest version is! If we get any funky response we'll exit the script.
 try:
@@ -69,7 +69,7 @@ except Exception as e:
     sys.exit()
 
 # Download URL for my github page (app home page) and we'll set the name of the current zip file
-downloadurl = "wget -q --show-progress https://github.com/doonze/JacketUpdate/archive/" + onlineversion + ".zip" 
+downloadurl = "wget -nv https://github.com/doonze/JacketUpdate/archive/" + onlineversion + ".zip" 
 zfile = onlineversion + ".zip"
 
 # Ok, we've got all the info we need. Now we'll test if we even need to update or not.
