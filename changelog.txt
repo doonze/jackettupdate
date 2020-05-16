@@ -1,2 +1,3 @@
-jackettupdate version 1.0
+jackettupdate version 1.0 Beta
 * Converted Embyupdate to jackettupdate
+* Staying at this version till it get it working as expected
