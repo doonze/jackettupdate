@@ -80,6 +80,7 @@ if python == '3':
     distro = config['DISTRO']['installdistro']
     installbeta = config['DISTRO']['releaseversion']
     installpath = config['SERVER']['installpath']
+    servicename = config['SERVER']['servicename']
     serverstop = config['SERVER']['stopserver']
     serverstart = config['SERVER']['startserver']
     appupdate = config['JackettUpdate']['autoupdate']
@@ -87,6 +88,7 @@ elif python == '2':
     distro = config.get('DISTRO', 'installdistro')
     installbeta = config.get('DISTRO', 'releaseversion')
     installpath = config.get('SERVER', 'installpath')
+    servicename = config.get('SERVER', 'servicename')
     serverstop = config.get('SERVER', 'stopserver')
     serverstart = config.get('SERVER', 'startserver')
     appupdate = config.get('JackettUpdate', 'autoupdate')
@@ -179,26 +181,36 @@ else:
 
     try:
         # This will stop the server on a systemd distro if it's been set to true above
-        if serverstop is True:
-            stopreturn = subprocess.call("systemctl stop jackett",shell=True)
-            for i in range(10,0,-1):
-                sys.stdout.write(str(i)+' ')
-                sys.stdout.flush()
-                time.sleep(1)
+        if serverstop == "True":
+            stopreturn = subprocess.call("systemctl stop " + servicename,shell=True)
+            print("")
+            print(timestamp() + "Server " + servicename + " being stopped...")
+            print("")
+            time.sleep(3)
 
             if stopreturn > 0:
                 print("Server Stop failed! It didn't exist, wasn't running, or we had some other issue.")
             
         # Here we download the package to install if used
         if "notused" not in downloadurl:
+            print(timestamp() + "Download started...")
+            print("")
             downreturn = subprocess.call(downloadurl,shell=True)
+            print("")
+            print(timestamp() + "Download Finished.")
+            print("")
             if downreturn > 0:
                 print("Download failed!! Exiting!")
                 sys.exit()
 
         # Next we install it if used
         if "notused" not in installcmd:
+            print(timestamp() + "Install/Update started...")
+            print("")
             installreturn = subprocess.call(installcmd,shell=True)
+            print("")
+            print(timestamp() + "Install/Update finished.")
+            print("")
             if installreturn > 0:
                 print("Install failed! Exiting!")
                 sys.exit()
@@ -206,10 +218,14 @@ else:
         # And to keep things nice and clean, we remove the downloaded file once installed if needed
         if "notused" not in installfile:
             subprocess.call("rm -f " + installfile,shell=True)
+            print(timestamp() + "Install file " + installfile + " removed.")
 
         # This will restart the server if using systemd if set to True above
-        if serverstart is True:
-            startreturn = subprocess.call("systemctl start Jackett",shell=True)
+        if serverstart == "True":
+            startreturn = subprocess.call("systemctl start " + servicename,shell=True)
+            print("")
+            print(timestamp + "Server being Started.")
+            print("")
             if startreturn > 0:
                 print("Server start failed. Non-critical to update but server may not be running. Investigate.")
                 

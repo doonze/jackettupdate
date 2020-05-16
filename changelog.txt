@@ -2,6 +2,10 @@ JackettUpdate Version 1.1 Beta
 * Corrected some default option errors in configupdate, the defaults are different for Jackett than Emby this script was forked form
 * Fixed an incorrect variable in configsetup. One of the servstop variables made it into the servstart logic block
 * Updated README.md file for use with Jackett
+* Added systemd service name to configupdate
+* Changed wording for server start and stop from manual to automatic (made more sense)
+* Reworked handling of server stop/start (so it now works, silly bools) 
+* Added more output to indicate what the script is currently doing
 
 
 JackettUpdate version 1.0 Beta (Rolled 5/16/2020)

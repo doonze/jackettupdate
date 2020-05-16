@@ -65,8 +65,19 @@ while True:
 print("")
 print(installpath + " set as Jackett install root directory")
 print("")
+
+while True:
+  servicename = input_func("Name of systemd Jackett service? This is the name it runs on through systemd [ex. jackett]: ")
+  if str(servicename) == "":
+    print("")
+    print("You must enter a service name!")
+  else:
+    break
   
-  
+print("")
+print(servicename + " set as Jackett systemd service")
+print("")
+
 # Now user chooses beta or Stable releases. Currently Jackett doesn't seem to use prelease (beta) versions. So commenting this out for now.
 
 #while True:
@@ -91,11 +102,11 @@ print("")
 while True:
 	servstop = input_func("Do we need to manually stop the server to install? Use only if you have Jackett running as a service [Y/n]: ")
 	if servstop == "y" or servstop == "Y" or servstop == "":
-		servstopchoice = "Server will be manually stopped on install."
+		servstopchoice = "Server will be stopped by the script on install."
 		stopserver = True
 		break
 	elif servstop == "n" or servstop == "N":
-		servstopchoice = "Server will NOT be manually stopped on install."
+		servstopchoice = "Server will NOT be stopped by the script on install."
 		stopserver = False
 		break
 	else:
@@ -111,11 +122,11 @@ print("")
 while True:
 	servstart = input_func("Do we need to manually start the server after install? Use only if you have Jackett running as a service [Y/n]: ")
 	if servstart == "y" or servstart == "Y" or servstart == "":
-		servstartchoice = "Server will be manually started after install."
+		servstartchoice = "Server will be started by the script after install."
 		startserver = True
 		break
 	elif servstart == "n" or servstart == "N":
-		servstartchoice = "Server will NOT be manually started after install."
+		servstartchoice = "Server will NOT be started by the script after install."
 		startserver = False
 		break
 	else:
@@ -150,6 +161,7 @@ print("")
 print("Choices to write to config file...")
 print("Linux distro version to update: " + chosendistro)
 print("The chosen version for install is: " + betachoice)
+print("The chosen systemd service name is: " + servicename)
 print("The chosen install filepath is " + installpath)
 print(servstopchoice)
 print(servstartchoice)
@@ -189,13 +201,14 @@ except Exception as e:
 try:
 	if cfgexist == False:
 		config['DISTRO'] = {'installdistro' : chosendistro, 'releaseversion' : betachoice}
-		config['SERVER'] = {'installpath' : installpath, 'stopserver' : stopserver, 'startserver' : startserver, 'jackettversion' : "First Run"}
+		config['SERVER'] = {'installpath' : installpath, 'servicename' : servicename, 'stopserver' : stopserver, 'startserver' : startserver, 'jackettversion' : "First Run"}
 		config['JackettUpdate'] = {'autoupdate' : autoupdate, 'version' : "First Run"}
 	elif cfgexist == True:
 		config.read('config.ini')
 		config['DISTRO']['installdistro'] = chosendistro
 		config['DISTRO']['releaseversion'] = betachoice
 		config['SERVER']["installpath"] = installpath
+		config['SERVER']["servicename"] = servicename
 		config['SERVER']['stopserver'] = str(stopserver)
 		config['SERVER']['startserver'] = str(startserver)
 		config['JackettUpdate']['autoupdate'] = str(autoupdate)
@@ -208,6 +221,7 @@ except:
 		config.set('DISTRO', 'releaseversion', betachoice)
 		config.add_section('SERVER')
 		config.set('SERVER', 'installpath', installpath)
+		config.set('SERVER', 'servicename', servicename)
 		config.set('SERVER', 'stopserver', stopserver)
 		config.set('SERVER', 'startserver', startserver)
 		config.set('SERVER', 'jackettversion', "First Run")
@@ -218,6 +232,7 @@ except:
 		config.read('config.ini')
 		config.set('DISTRO', 'installdistro', chosendistro)
 		config.set('DISTRO', 'releaseversion', betachoice)
+		config.set('SERVER', 'servicename', str(servicename))
 		config.set('SERVER', 'installpath', str(installpath))
 		config.set('SERVER', 'stopserver', str(stopserver))
 		config.set('SERVER', 'startserver', str(startserver))
