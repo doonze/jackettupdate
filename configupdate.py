@@ -55,7 +55,7 @@ print(chosendistro + " Chosen")
 print("")
 
 while True:
-  installpath = input_func("Root filepath to install Jackett? (Suggest /opt/. The Jackett tarball automatically creates a Jackett directory) [path] : ")
+  installpath = input_func("Root filepath to install Jackett? (Suggest /opt/. The Jackett tarball automatically creates a Jackett directory) [/opt/]: ")
   if str(installpath) == "":
     print("")
     print("You must enter a valid filepath!")
@@ -89,12 +89,12 @@ print("")
 # User chooses if they wish to stop the server before installing updates. Not normally needed. But not a bad idea.
 
 while True:
-	servstop = input_func("Do we need to manually stop the server to install? Use only if you have Jackett running as a service [Y/n] ")
-	if servstop == "y" or servstop == "Y":
+	servstop = input_func("Do we need to manually stop the server to install? Use only if you have Jackett running as a service [Y/n]: ")
+	if servstop == "y" or servstop == "Y" or servstop == "":
 		servstopchoice = "Server will be manually stopped on install."
 		stopserver = True
 		break
-	elif servstop == "n" or servstop == "N" or servstop == "":
+	elif servstop == "n" or servstop == "N":
 		servstopchoice = "Server will NOT be manually stopped on install."
 		stopserver = False
 		break
@@ -109,12 +109,12 @@ print("")
 
 # User chooses if they wish to start the server again after updates. This is needed to pickup update for running verison.
 while True:
-	servstart = input_func("Do we need to manually start the server after install? Use only if you have Jackett running as a service [Y/n] ")
-	if servstart == "y" or servstart == "Y":
+	servstart = input_func("Do we need to manually start the server after install? Use only if you have Jackett running as a service [Y/n]: ")
+	if servstart == "y" or servstart == "Y" or servstart == "":
 		servstartchoice = "Server will be manually started after install."
 		startserver = True
 		break
-	elif servstop == "n" or servstart == "N" or servstart == "":
+	elif servstart == "n" or servstart == "N":
 		servstartchoice = "Server will NOT be manually started after install."
 		startserver = False
 		break
@@ -129,7 +129,7 @@ print("")
 
 # User chooses if they wish to autoupdate the Update app (this program)
 while True:
-	scriptupdate = input_func("Keep JackettUpdate (this script) up to date with latest version? [Y/n] ")
+	scriptupdate = input_func("Keep JackettUpdate (this script) up to date with latest version? [Y/n]: ")
 	if scriptupdate == "y" or scriptupdate == "Y" or scriptupdate == "":
 		scriptupdatechoice = "Script (JackettUpdate) will be automatically updated!"
 		autoupdate = True
