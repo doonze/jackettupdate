@@ -29,9 +29,9 @@ installbeta = False
 config.read('config.ini')
 # We pull the config info based on if user is running python 2 or python 3
 if python == '3':
-    appversion = config['JacketUpdate']['version']
+    appversion = config['JackettUpdate']['version']
 elif python == '2':
-    appversion = config.get('JacketUpdate', 'version')
+    appversion = config.get('JackettUpdate', 'version')
 
 # We're going to force the working path to be where the script lives
 os.chdir(sys.path[0])
@@ -63,13 +63,13 @@ try:
                 versiontype = "Stable"
                 break
 except Exception as e:
-    print(timestamp() + "JacketUpdate: We didn't get an expected response from the github api, script is exiting!")
-    print(timestamp() + "JacketUpdate: Here's the error we got -- " + str(e))
+    print(timestamp() + "JackettUpdate: We didn't get an expected response from the github api, script is exiting!")
+    print(timestamp() + "JackettUpdate: Here's the error we got -- " + str(e))
     print(e)
     sys.exit()
 
 # Download URL for my github page (app home page) and we'll set the name of the current zip file
-downloadurl = "wget -nv https://github.com/doonze/JacketUpdate/archive/" + onlineversion + ".zip" 
+downloadurl = "wget -nv https://github.com/doonze/JackettUpdate/archive/" + onlineversion + ".zip" 
 zfile = onlineversion + ".zip"
 
 # Ok, we've got all the info we need. Now we'll test if we even need to update or not.
@@ -78,14 +78,14 @@ onlinefileversion = (onlineversion + "-" + versiontype)
 
 if str(onlinefileversion) in str(appversion):
     # If the latest online verson matches the last installed version then we let you know and exit
-    print(timestamp() + "JacketUpdate: App is up to date!  Current and Online versions are at " + onlinefileversion + ". Nothing to see here... move along. Script exiting!")
+    print(timestamp() + "JackettUpdate: App is up to date!  Current and Online versions are at " + onlinefileversion + ". Nothing to see here... move along. Script exiting!")
     sys.exit()
 else:
 	# If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
     print('')
-    print(timestamp() + "JacketUpdate: Most recent app online version is " + onlinefileversion + " and current installed version is " + appversion + ". We're updating JacketUpdate app.")
+    print(timestamp() + "JackettUpdate: Most recent app online version is " + onlinefileversion + " and current installed version is " + appversion + ". We're updating JackettUpdate app.")
     print('')
-    print("\n" + timestamp() + "JacketUpdate: Starting self app update......")
+    print("\n" + timestamp() + "JackettUpdate: Starting self app update......")
     print('')
 
    	# Here we download the zip to install
@@ -103,18 +103,18 @@ else:
     subprocess.call("rm -f " + zfile,shell=True)
 
     # now we'll set the app as executable
-    st = os.stat("embyupdate.py")
-    os.chmod("embyupdate.py", st.st_mode | 0o111)
+    st = os.stat("jackettupdate.py")
+    os.chmod("jackettupdate.py", st.st_mode | 0o111)
 
 	# Lastly we write the newly installed version into the config file
     try:
-        config['JacketUpdate']['version'] = onlinefileversion
+        config['JackettUpdate']['version'] = onlinefileversion
     except AttributeError:
-        config.set('JacketUpdate', 'version', onlinefileversion)
+        config.set('JackettUpdate', 'version', onlinefileversion)
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
     print('')
-    print(timestamp() + "JacketUpdate: Updating to JacketUpdate app version " + onlinefileversion + " finished! Script exiting!")
+    print(timestamp() + "JackettUpdate: Updating to JackettUpdate app version " + onlinefileversion + " finished! Script exiting!")
     print('')
     print("*****************************************************************************")
     print("\n")
