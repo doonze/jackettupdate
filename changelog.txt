@@ -1,0 +1,2 @@
+jackettupdate version 1.0
+* Converted Embyupdate to jackettupdate
