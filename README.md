@@ -1,5 +1,5 @@
 # JackettUpdate
-A python script for automatically updating Jackett to the latest version on Linux distros.
+A python script for automatically updating or even installing Jackett to the latest version on Linux distros.
 
 This is a self fork of my EmbyUpdate script. These scripts can be forked to update just about any github Linux project, with some work.
 
