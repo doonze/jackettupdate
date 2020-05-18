@@ -1,3 +1,7 @@
+JackettUpdate Versoni 1.2 Beta
+* Corrected exception error (I think) caused by not using () on the end of one
+instance of timestamp() func
+
 JackettUpdate Version 1.1 Beta (Rolled 5/17/2020)
 * Fixed issue with incorrect URL (missed a t in jackett) in the selfupdater URL for this repo
 * Corrected some default option errors in configupdate, the defaults are different for Jackett than Emby this script was forked form
