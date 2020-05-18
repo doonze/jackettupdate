@@ -224,7 +224,7 @@ else:
         if serverstart == "True":
             startreturn = subprocess.call("systemctl start " + servicename,shell=True)
             print("")
-            print(timestamp + "Server being Started.")
+            print(timestamp() + "Server being Started.")
             print("")
             if startreturn > 0:
                 print("Server start failed. Non-critical to update but server may not be running. Investigate.")
