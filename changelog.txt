@@ -1,6 +1,5 @@
-JackettUpdate Versoni 1.2 Beta
-* Corrected exception error (I think) caused by not using () on the end of one
-instance of timestamp() func
+JackettUpdate Versoni 1.2 Beta (Rolled 5/17/2020 as breakfix)
+* Corrected critical exception error caused by not using () on the end of one instance of timestamp() func
 
 JackettUpdate Version 1.1 Beta (Rolled 5/17/2020)
 * Fixed issue with incorrect URL (missed a t in jackett) in the selfupdater URL for this repo
