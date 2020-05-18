@@ -137,14 +137,14 @@ except Exception as e:
 if distro == "Linux X64":
     downloadurl = "wget -nv https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxAMDx64.tar.gz -P " + installpath 
     installfile = installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz"
-    installcmd = "tar -C " + installpath + " -zxvf " + installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz"
+    installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz --totals"
 #***************************************
 
 # Linux ARM32 **************************
 if distro == "Linux ARM32":
     downloadurl = "wget -nv https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM32.tar.gz -P " + installpath
     installfile = installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
-    installcmd = "tar -C " + installpath + " -zxvf " + installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
+    installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
 #***************************************
 
 # Linux ARM64 ***************************
