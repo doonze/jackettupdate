@@ -1,5 +1,6 @@
 JackettUpdate Verison 1.3 Beta
 * Cleaned up some verbage of output
+* Changed tar to not vommit so much output into the log
 
 JackettUpdate Verison 1.2 Beta (Rolled 5/17/2020 as breakfix)
 * Corrected critical exception error caused by not using () on the end of one instance of timestamp() func
@@ -17,4 +18,4 @@ JackettUpdate Version 1.1 Beta (Rolled 5/17/2020)
 
 JackettUpdate version 1.0 Beta (Rolled 5/16/2020)
 * Converted Embyupdate to jackettupdate
-* Staying at this version till it get it working as expected
+* Staying at this version till I get it working as expected
