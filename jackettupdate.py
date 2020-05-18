@@ -172,7 +172,7 @@ onlinefileversion = (onlineversion + "-" + versiontype)
 
 if str(onlinefileversion) in str(fileversion):
     # If the latest online verson matches the last installed version then we let you know and exit
-    print(timestamp() + "JackettUpdate: We're up to date!  Current and Online versions are at " + onlinefileversion + ". Nothing to see here... move along. Script exiting!")
+    print(timestamp() + "JackettUpdate: We're up to date!  Current and Online versions are at " + onlinefileversion + ".")
     print('***')
 else:
     # If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
