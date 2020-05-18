@@ -1,4 +1,7 @@
-JackettUpdate Versoni 1.2 Beta (Rolled 5/17/2020 as breakfix)
+JackettUpdate Verison 1.3 Beta
+* Cleaned up some verbage of output
+
+JackettUpdate Verison 1.2 Beta (Rolled 5/17/2020 as breakfix)
 * Corrected critical exception error caused by not using () on the end of one instance of timestamp() func
 
 JackettUpdate Version 1.1 Beta (Rolled 5/17/2020)
