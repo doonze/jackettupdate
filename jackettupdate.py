@@ -18,9 +18,6 @@ import configparser
 # First we're going to force the working path to be where the script lives
 os.chdir(sys.path[0])
 
-# Sets the version # for the command line -v/--version response
-versionnum = "1.3 Beta"
-
 # Just to make python happy
 returncode = 0
 
