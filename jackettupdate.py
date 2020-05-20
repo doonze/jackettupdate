@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # This Python file uses the following encoding: utf-8
-# JackettUpdate Version 1.2 Beta
+# JackettUpdate Version
+# Sets the version # for the command line -v/--version response
+versionnum = "1.3 Beta"
+
 import sys
 import os
 import json
@@ -13,7 +16,7 @@ import subprocess
 # First we're going to force the working path to be where the script lives
 os.chdir(sys.path[0])
 
-# Sets the version # for the conmand line -v/--version response
+# Sets the version # for the command line -v/--version response
 versionnum = "1.2 Beta"
 
 # Just to make python happy
