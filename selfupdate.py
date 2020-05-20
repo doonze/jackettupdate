@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # This Python file uses the following encoding: utf-8
 # This program is used can called by the main program to update the app itself if needed
+# JackettUpdate selfupdate file
 import sys
 import os
 import json
@@ -10,28 +11,28 @@ import time
 import pprint
 import zipfile
 import subprocess
+from configparser import ConfigParser
+import configparser
 
-# Here we try python3 configparser import. If that fails it means user is running python2. So we import
-# the python2 ConfigParser instead
+# Sets up the config system
+config = configparser.ConfigParser()
 
-try:
-    import configparser
-    config = configparser.ConfigParser()
-    python = '3'
-except ImportError:
-    import ConfigParser
-    config = ConfigParser.ConfigParser()
-    python = '2'
-
+# I don't use beta releases, but this is here just in case I do in the future
 installbeta = False
 
 # Now we're going to open the config file reader
 config.read('config.ini')
-# We pull the config info based on if user is running python 2 or python 3
-if python == '3':
+
+# Now we're going to open the config file reader
+config.read('config.ini')
+
+# And we're going to get the current installed version from config
+try:
     appversion = config['JackettUpdate']['version']
-elif python == '2':
-    appversion = config.get('JackettUpdate', 'version')
+except Exception as e:
+    print(timestamp() + "JackettUpdate(self): We couldnt pull the current version from the config file!")
+    print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
+    sys.exit()
 
 # We're going to force the working path to be where the script lives
 os.chdir(sys.path[0])
@@ -109,10 +110,13 @@ else:
 	# Lastly we write the newly installed version into the config file
     try:
         config['JackettUpdate']['version'] = onlinefileversion
-    except AttributeError:
-        config.set('JackettUpdate', 'version', onlinefileversion)
-    with open('config.ini', 'w') as configfile:
-        config.write(configfile)
+        with open('config.ini', 'w') as configfile:
+            config.write(configfile)
+    except Exception as e:
+        print(timestamp() + "JackettUpdate(self): We couldnt write the installed version to the config file!")
+        print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
+        sys.exit()
+    
     print('')
     print(timestamp() + "JackettUpdate(self): Updating to JackettUpdate app version " + onlinefileversion + " finished! Script exiting!")
     print('')
