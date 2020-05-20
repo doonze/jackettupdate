@@ -70,7 +70,7 @@ config.read('config.ini')
 # Should work with both python 2.7 and all flavors of 3.                                      #
 ###############################################################################################
 
-# Here we pull the main config parms.
+# Here we pull the main config params.
 try:
     distro = config['DISTRO']['installdistro']
     installbeta = config['DISTRO']['releaseversion']
@@ -161,7 +161,7 @@ except Exception as e:
 onlinefileversion = (onlineversion + "-" + versiontype)
 
 if str(onlinefileversion) in str(fileversion):
-    # If the latest online verson matches the last installed version then we let you know and exit
+    # If the latest online version matches the last installed version then we let you know and exit
     print(timestamp() + "JackettUpdate: We're up to date!  Current and Online versions are at " + onlinefileversion + ".")
     print('***')
 else:

@@ -30,7 +30,7 @@ config.read('config.ini')
 try:
     appversion = config['JackettUpdate']['version']
 except Exception as e:
-    print(timestamp() + "JackettUpdate(self): We couldnt pull the current version from the config file!")
+    print(timestamp() + "JackettUpdate(self): We couldn't pull the current version from the config file!")
     print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
     sys.exit()
 
@@ -78,7 +78,7 @@ zfile = onlineversion + ".zip"
 onlinefileversion = (onlineversion + "-" + versiontype)
 
 if str(onlinefileversion) in str(appversion):
-    # If the latest online verson matches the last installed version then we let you know and exit
+    # If the latest online version matches the last installed version then we let you know and exit
     print(timestamp() + "JackettUpdate(self): App is up to date!  Current and Online versions are at " + onlinefileversion + ".")
     sys.exit()
 else:
@@ -113,7 +113,7 @@ else:
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
     except Exception as e:
-        print(timestamp() + "JackettUpdate(self): We couldnt write the installed version to the config file!")
+        print(timestamp() + "JackettUpdate(self): We couldn't write the installed version to the config file!")
         print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
         sys.exit()
     

@@ -82,7 +82,7 @@ betachoice = "Stable"
 #		print("")
 
 #print("")
-print(betachoice + " version of Jackett has been choosen for install. This was autoselected as currently Jackett doesn't use prerelease (beta) releases")
+print(betachoice + " version of Jackett has been chosen for install. This was autoselected as currently Jackett doesn't use prerelease (beta) releases")
 print("")
 
 # User chooses if they wish to stop the server before installing updates. Not normally needed. But not a bad idea.
@@ -106,7 +106,7 @@ print("")
 print(servstopchoice)
 print("")
 
-# User chooses if they wish to start the server again after updates. This is needed to pickup update for running verison.
+# User chooses if they wish to start the server again after updates. This is needed to pickup update for running version.
 while True:
 	servstart = input("Do we need to manually start the server after install? Use only if you have Jackett running as a service [Y/n]: ")
 	if servstart == "y" or servstart == "Y" or servstart == "":
