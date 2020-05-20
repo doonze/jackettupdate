@@ -225,9 +225,9 @@ else:
             with open('config.ini', 'w') as configfile:
                 config.write(configfile)
         except Exception as e:
-	        print("JackettUpdate: Couldn't write into the config file!")
-	        print("JackettUpdate: Here's the error we got -- " + str(e))
-                sys.exit()        
+            print("JackettUpdate: Couldn't write into the config file!")
+            print("JackettUpdate: Here's the error we got -- " + str(e))
+            sys.exit()        
 
         print(timestamp() + "JackettUpdate: Updating to version " + onlinefileversion + " finished! Script exiting!")
         print('')
