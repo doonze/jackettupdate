@@ -12,12 +12,14 @@ import os.path
 import time
 import argparse
 import subprocess
+from configparser import ConfigParser
+import configparser
 
 # First we're going to force the working path to be where the script lives
 os.chdir(sys.path[0])
 
 # Sets the version # for the command line -v/--version response
-versionnum = "1.2 Beta"
+versionnum = "1.3 Beta"
 
 # Just to make python happy
 returncode = 0
@@ -40,9 +42,7 @@ if args.config == False:
 # Here we try python3 configparser import. If that fails it means user is running python2. So we import
 # the python2 ConfigParser instead
 try:
-    import configparser
     config = configparser.ConfigParser()
-    python = '3'
     if args.config == True:
         print("")
         print("Config update started....")
@@ -50,15 +50,10 @@ try:
         returncode = subprocess.call("python3 configupdate.py",shell=True)
         if returncode > 1:
             returncode = subprocess.call("python configupdate.py",shell=True)
-except ImportError:
-    from configparser import ConfigParser
-    config = ConfigParser.ConfigParser()
-    python = '2'
-    if args.config == True:
-        print("")
-        print("Config update started....")
-        print("")
-        returncode = subprocess.call("python configupdate.py",shell=True)
+except Exception as e:
+	print("JackettUpdate: Couldn't call the configupdater.")
+	print("JackettUpdate: Here's the error we got -- " + str(e))
+        sys.exit()
 
 # Here we test to see if the called subprocess above got a return code. If the return code is 1 then
 # the entire process is exited and no updates will be installed. This is triggered by one of the two
@@ -79,7 +74,7 @@ config.read('config.ini')
 ###############################################################################################
 
 # Here we pull the main config parms.
-if python == '3':
+try:
     distro = config['DISTRO']['installdistro']
     installbeta = config['DISTRO']['releaseversion']
     installpath = config['SERVER']['installpath']
@@ -87,14 +82,9 @@ if python == '3':
     serverstop = config['SERVER']['stopserver']
     serverstart = config['SERVER']['startserver']
     appupdate = config['JackettUpdate']['autoupdate']
-elif python == '2':
-    distro = config.get('DISTRO', 'installdistro')
-    installbeta = config.get('DISTRO', 'releaseversion')
-    installpath = config.get('SERVER', 'installpath')
-    servicename = config.get('SERVER', 'servicename')
-    serverstop = config.get('SERVER', 'stopserver')
-    serverstart = config.get('SERVER', 'startserver')
-    appupdate = config.get('JackettUpdate', 'autoupdate')
+except Exception as e:
+	print("JackettUpdate: Couldn't pull config info!!!")
+	print("JackettUpdate: Here's the error we got -- " + str(e))
 
 # This is a simple timestamp function, created so each call would have a current timestamp
 def timestamp():
@@ -162,12 +152,12 @@ if distro == "Linux ARM64":
 ###################################################################################################
 
 # Now were going to pull the version from the config file
-if python == '3':
-    #This fires if user is running python3
+try:
     fileversion = config['SERVER']['jackettversion']
-elif python == '2':
-    # This fires if user is running python2
-    fileversion = config.get('SERVER', 'jackettversion')
+except Exception as e:
+	print("JackettUpdate: Couldn't pull version info from the config file!")
+	print("JackettUpdate: Here's the error we got -- " + str(e))
+        sys.exit()
 
 # Ok, we've got all the info we need. Now we'll test if we even need to update or not.
 
@@ -235,11 +225,13 @@ else:
             # Lastly we write the newly installed version into the config file
         try:
             config['SERVER']['jackettversion'] = onlinefileversion
-        except AttributeError:
-            config.set('SERVER', 'jackettversion', onlinefileversion)
+            with open('config.ini', 'w') as configfile:
+                config.write(configfile)
+        except Exception as e:
+	        print("JackettUpdate: Couldn't write into the config file!")
+	        print("JackettUpdate: Here's the error we got -- " + str(e))
+                sys.exit()        
 
-        with open('config.ini', 'w') as configfile:
-            config.write(configfile)
         print(timestamp() + "JackettUpdate: Updating to version " + onlinefileversion + " finished! Script exiting!")
         print('')
         print("*****************************************************************************")
