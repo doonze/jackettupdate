@@ -51,9 +51,9 @@ try:
         if returncode > 1:
             returncode = subprocess.call("python configupdate.py",shell=True)
 except Exception as e:
-	print("JackettUpdate: Couldn't call the configupdater.")
-	print("JackettUpdate: Here's the error we got -- " + str(e))
-        sys.exit()
+    print("JackettUpdate: Couldn't call the configupdater.")
+    print("JackettUpdate: Here's the error we got -- " + str(e))
+    sys.exit()
 
 # Here we test to see if the called subprocess above got a return code. If the return code is 1 then
 # the entire process is exited and no updates will be installed. This is triggered by one of the two
