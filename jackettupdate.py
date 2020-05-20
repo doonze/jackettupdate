@@ -152,9 +152,9 @@ if distro == "Linux ARM64":
 try:
     fileversion = config['SERVER']['jackettversion']
 except Exception as e:
-	print("JackettUpdate: Couldn't pull version info from the config file!")
-	print("JackettUpdate: Here's the error we got -- " + str(e))
-        sys.exit()
+    print("JackettUpdate: Couldn't pull version info from the config file!")
+    print("JackettUpdate: Here's the error we got -- " + str(e))
+    sys.exit()
 
 # Ok, we've got all the info we need. Now we'll test if we even need to update or not.
 
