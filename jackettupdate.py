@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # This Python file uses the following encoding: utf-8
-# JackettUpdate Version
+# JackettUpdate
 # Sets the version # for the command line -v/--version response
 versionnum = "1.3 Beta"
 
