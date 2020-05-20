@@ -48,7 +48,7 @@ try:
         if returncode > 1:
             returncode = subprocess.call("python configupdate.py",shell=True)
 except ImportError:
-    import ConfigParser
+    from configparser import ConfigParser
     config = ConfigParser.ConfigParser()
     python = '2'
     if args.config == True:
