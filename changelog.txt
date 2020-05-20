@@ -6,10 +6,10 @@ JackettUpdate Verison 1.3 Beta
 * Rewrote jackettupdate.py for better and smarter handling of python 2/3 compatablity
   also added a number of new try/catch blocks to attempt to better handle and report
   exceptions
-*Rewrote selfupdate.py for better and smart handling of python 2/3 compatablity
+*Rewrote selfupdate.py for better and smarter handling of python 2/3 compatablity
   also added a number of new try/catch blocks to attempt to better handle and report
   exceptions
-  
+
 JackettUpdate Verison 1.2 Beta (Rolled 5/17/2020 as breakfix)
 * Corrected critical exception error caused by not using () on the end of one instance of timestamp() func
 
