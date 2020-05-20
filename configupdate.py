@@ -47,7 +47,7 @@ while True:
 		sys.exit(1)
 	else:
 		print("")
-		print("Invalid Choice! Valid choices are 1-8 or C to cancel. Please Try again.")
+		print("Invalid Choice! Valid choices are 1-3 or C to cancel. Please Try again.")
 		print("")
 
 print("")
