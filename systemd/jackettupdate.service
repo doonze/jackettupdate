@@ -1,0 +1,8 @@
+[Unit]
+Description=JackettUpdate script
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/bin/jackettupdate/jackettupdate.py
+StandardOutput=append:/var/log/jackettupdate/jackettupdate.log
+StandardError=append:/var/log/jackettupdate/jackettupdate.log

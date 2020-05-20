@@ -1,0 +1,10 @@
+[Unit]
+Description=Run JackettUpdate once a day
+
+[Timer]
+OnCalendar=*-*-* 12:50:00
+RandomizedDelaySec=20s
+Persistent=False
+
+[Install] 
+WantedBy=multi-user.target
