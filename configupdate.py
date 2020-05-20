@@ -1,25 +1,13 @@
 #!/usr/bin/env python
 # This Python file uses the following encoding: utf-8
 # This file is used to configure and create the config file. It's called from the main app
+#JackettUpdate configupdate
 
 import sys
 import os
-
-# First we'll try python 3 configparser import. If that fails we'll try python 2. This will 
-# determine which were using. 
-try:
-	import configparser
-	python = '3'
-except ImportError:
-	import ConfigParser
-	python = '2'
-
-# This function is for compatability between python 3 and python 2
-input_func = None
-try:
-	input_func = raw_input
-except NameError:
-	input_func = input
+import configparser
+from configparser import ConfigParser
+from builtins import input
 
 # Now we'll start gathering user input
 # First user will choose their distro
@@ -30,7 +18,7 @@ print("[3] Linux ARM64")
 print("[C] Cancel config update")
 
 while True:
-	distrochoice = input_func("Choose your distro by number or C to cancel update [?]: ")
+	distrochoice = input("Choose your distro by number or C to cancel update [?]: ")
 	if str(distrochoice) == "1":
 		chosendistro = "Linux X64"
 		break
@@ -55,7 +43,7 @@ print(chosendistro + " Chosen")
 print("")
 
 while True:
-  installpath = input_func("Root filepath to install Jackett? (Suggest /opt/. The Jackett tarball automatically creates a Jackett directory) [/opt/]: ")
+  installpath = input("Root filepath to install Jackett? (Suggest /opt/. The Jackett tarball automatically creates a Jackett directory) [/opt/]: ")
   if str(installpath) == "":
     print("")
     print("You must enter a valid filepath!")
@@ -67,7 +55,7 @@ print(installpath + " set as Jackett install root directory")
 print("")
 
 while True:
-  servicename = input_func("Name of systemd Jackett service? This is the name it runs on through systemd [ex. jackett]: ")
+  servicename = input("Name of systemd Jackett service? This is the name it runs on through systemd [ex. jackett]: ")
   if str(servicename) == "":
     print("")
     print("You must enter a service name!")
@@ -81,7 +69,7 @@ print("")
 # Now user chooses beta or Stable releases. Currently Jackett doesn't seem to use prelease (beta) versions. So commenting this out for now.
 
 #while True:
-#	choosebeta = input_func("Do you want to install the beta version? [y/N] ")
+#	choosebeta = input("Do you want to install the beta version? [y/N] ")
 #	if choosebeta == "y" or choosebeta == "Y":
 #		betachoice = "Beta"
 #		break
@@ -100,7 +88,7 @@ print("")
 # User chooses if they wish to stop the server before installing updates. Not normally needed. But not a bad idea.
 
 while True:
-	servstop = input_func("Do we need to manually stop the server to install? Use only if you have Jackett running as a service [Y/n]: ")
+	servstop = input("Do we need to manually stop the server to install? Use only if you have Jackett running as a service [Y/n]: ")
 	if servstop == "y" or servstop == "Y" or servstop == "":
 		servstopchoice = "Server will be stopped by the script on install."
 		stopserver = True
@@ -120,7 +108,7 @@ print("")
 
 # User chooses if they wish to start the server again after updates. This is needed to pickup update for running verison.
 while True:
-	servstart = input_func("Do we need to manually start the server after install? Use only if you have Jackett running as a service [Y/n]: ")
+	servstart = input("Do we need to manually start the server after install? Use only if you have Jackett running as a service [Y/n]: ")
 	if servstart == "y" or servstart == "Y" or servstart == "":
 		servstartchoice = "Server will be started by the script after install."
 		startserver = True
@@ -140,7 +128,7 @@ print("")
 
 # User chooses if they wish to autoupdate the Update app (this program)
 while True:
-	scriptupdate = input_func("Keep JackettUpdate (this script) up to date with latest version? [Y/n]: ")
+	scriptupdate = input("Keep JackettUpdate (this script) up to date with latest version? [Y/n]: ")
 	if scriptupdate == "y" or scriptupdate == "Y" or scriptupdate == "":
 		scriptupdatechoice = "Script (JackettUpdate) will be automatically updated!"
 		autoupdate = True
@@ -169,7 +157,7 @@ print(scriptupdatechoice)
 print("")
 
 while True:
-	confirm = input_func("Please review above choices and type CONFIRM to continue or c to cancel update and install! [CONFIRM/c] ")
+	confirm = input("Please review above choices and type CONFIRM to continue or c to cancel update and install! [CONFIRM/c] ")
 	if confirm == "c" or confirm == "C":
 		print("")
 		print("Exiting config update and installer. No changes were made and nothing will be installed!")
@@ -183,11 +171,10 @@ while True:
 		print("")
 
 
-try:
-	config = configparser.ConfigParser()
-except:
-	config = ConfigParser.ConfigParser()
+# Setup the config interface
+config = configparser.ConfigParser()
 
+# Test if the config file exist
 try:
 	if not os.path.isfile("config.ini"):
 		cfgexist = False
@@ -197,7 +184,10 @@ except Exception as e:
 	print("JackettUpdate: Couldn't access the config.ini file. Permission issues? We can't continue")
 	print("JackettUpdate: Here's the error we got -- " + str(e))
 	sys.exit(1)
-
+	
+	
+# If config doesn't exist (cfgexist False) it will create it with the correct values fill in and 
+# if it does exist (cfgexist True) it will simply update the existing config
 try:
 	if cfgexist == False:
 		config['DISTRO'] = {'installdistro' : chosendistro, 'releaseversion' : betachoice}
@@ -214,31 +204,11 @@ try:
 		config['JackettUpdate']['autoupdate'] = str(autoupdate)
 	with open('config.ini', 'w') as configfile:
 		config.write(configfile)
-except:
-	if cfgexist == False:
-		config.add_section('DISTRO')
-		config.set('DISTRO', 'installdistro', chosendistro)
-		config.set('DISTRO', 'releaseversion', betachoice)
-		config.add_section('SERVER')
-		config.set('SERVER', 'installpath', installpath)
-		config.set('SERVER', 'servicename', servicename)
-		config.set('SERVER', 'stopserver', stopserver)
-		config.set('SERVER', 'startserver', startserver)
-		config.set('SERVER', 'jackettversion', "First Run")
-		config.add_section('JackettUpdate')
-		config.set('JackettUpdate', 'autoupdate', autoupdate)
-		config.set('JackettUpdate', 'version' , "First Run")
-	elif cfgexist == True:
-		config.read('config.ini')
-		config.set('DISTRO', 'installdistro', chosendistro)
-		config.set('DISTRO', 'releaseversion', betachoice)
-		config.set('SERVER', 'servicename', str(servicename))
-		config.set('SERVER', 'installpath', str(installpath))
-		config.set('SERVER', 'stopserver', str(stopserver))
-		config.set('SERVER', 'startserver', str(startserver))
-		config.set('JackettUpdate', 'autoupdate', str(autoupdate))
-	with open('config.ini', 'w') as configfile:
-		config.write(configfile)
+except Exception as e:
+	print("EmbyUpdate: Couldn't write to the config file.")
+	print("EmbyUpdate: Here's the error we got -- " + str(e))
+	sys.exit(1)
+	
 
 print("")
 print("Config written to file!")

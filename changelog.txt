@@ -1,6 +1,8 @@
 JackettUpdate Verison 1.3 Beta
 * Cleaned up some verbage of output
 * Changed tar to not vommit so much output into the log
+* Added systemd files and a readme about using them
+* Rewrote configupdate.py for better and smarter handling of python 2/3 compatablity
 
 JackettUpdate Verison 1.2 Beta (Rolled 5/17/2020 as breakfix)
 * Corrected critical exception error caused by not using () on the end of one instance of timestamp() func
