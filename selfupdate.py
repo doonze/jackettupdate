@@ -68,7 +68,7 @@ except Exception as e:
     print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
     print(e)
     sys.exit()
-
+    
 # Download URL for my github page (app home page) and we'll set the name of the current zip file
 downloadurl = "wget -nv https://github.com/doonze/JackettUpdate/archive/" + onlineversion + ".zip" 
 zfile = onlineversion + ".zip"
@@ -115,11 +115,10 @@ else:
     except Exception as e:
         print(timestamp() + "JackettUpdate(self): We couldn't write the installed version to the config file!")
         print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
-        sys.exit()
+        quit()
     
     print('')
     print(timestamp() + "JackettUpdate(self): Updating to JackettUpdate app version " + onlinefileversion + " finished! Script exiting!")
     print('')
     print("*****************************************************************************")
     print("\n")
-    sys.exit()

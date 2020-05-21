@@ -1,3 +1,6 @@
 .vscode/settings.json
 config.ini
 jsontest.py
+__pycache__/configupdate.cpython-37.pyc
+__pycache__/customfunctions.cpython-37.pyc
+__pycache__/selfupdate.cpython-37.pyc

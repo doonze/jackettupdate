@@ -14,7 +14,12 @@ import argparse
 import subprocess
 from configparser import ConfigParser
 import configparser
+from timeit import default_timer as timer
+import datetime
+from customfunctions import *
 
+
+updatestart = timer()
 # First we're going to force the working path to be where the script lives
 os.chdir(sys.path[0])
 
@@ -32,9 +37,9 @@ args = parser.parse_args()
 if args.config == False:
     if not os.path.isfile("config.ini"):
         print("")
-        print("Config file doesn't exist! Likely this is your first time running the script. You MUST run the script with option -c or --config to continue. This only has to be done once.")
+        print("Config file doesn't exist! Likely this is your first time running the script. Starting configuration manager.")
         print("")
-        sys.exit()
+        import configupdate
 
 # Here we try python3 configparser import. If that fails it means user is running python2. So we import
 # the python2 ConfigParser instead
@@ -83,11 +88,6 @@ except Exception as e:
 	print("JackettUpdate: Couldn't pull config info!!!")
 	print("JackettUpdate: Here's the error we got -- " + str(e))
 
-# This is a simple timestamp function, created so each call would have a current timestamp
-def timestamp():
-    ts = time.strftime("%x %X", time.localtime())
-    return ("<" + ts + "> ")
-
 # The github API of releases for Jackett. This includes beta and production releases
 url = "https://api.github.com/repos/Jackett/Jackett/releases"
 
@@ -125,21 +125,21 @@ except Exception as e:
 
 # Linux AMD64 **************************
 if distro == "Linux X64":
-    downloadurl = "wget -nv https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxAMDx64.tar.gz -P " + installpath 
+    downloadurl = "wget -q https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxAMDx64.tar.gz -P " + installpath 
     installfile = installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz"
     installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz --totals"
 #***************************************
 
 # Linux ARM32 **************************
 if distro == "Linux ARM32":
-    downloadurl = "wget -nv https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM32.tar.gz -P " + installpath
+    downloadurl = "wget -q https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM32.tar.gz -P " + installpath
     installfile = installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
     installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
 #***************************************
 
 # Linux ARM64 ***************************
 if distro == "Linux ARM64":
-    downloadurl = "wget -nv https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM64.tar.gz -P " + installpath
+    downloadurl = "wget -q https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM64.tar.gz -P " + installpath
     installfile = installpath + "Jackett.Binaries.LinuxARM64.tar.gz"
     installcmd = "tar -C " + installpath + " -zxvf " + installpath + "Jackett.Binaries.LinuxARM64.tar.gz"
 #***************************************
@@ -159,11 +159,11 @@ except Exception as e:
 # Ok, we've got all the info we need. Now we'll test if we even need to update or not.
 
 onlinefileversion = (onlineversion + "-" + versiontype)
-
+end = timer()
 if str(onlinefileversion) in str(fileversion):
     # If the latest online version matches the last installed version then we let you know and exit
     print(timestamp() + "JackettUpdate: We're up to date!  Current and Online versions are at " + onlinefileversion + ".")
-    print('***')
+    print('***')    
 else:
     # If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
     print(timestamp() + "JackettUpdate: Most recent online version is " + onlinefileversion + " and current installed version is " + fileversion + ". We're updating Jackett.")
@@ -228,8 +228,9 @@ else:
             print("JackettUpdate: Couldn't write into the config file!")
             print("JackettUpdate: Here's the error we got -- " + str(e))
             sys.exit()        
-
-        print(timestamp() + "JackettUpdate: Updating to version " + onlinefileversion + " finished! Script exiting!")
+        updateend = timer()
+        totalupdatetime = display_time(updateend - updatestart)
+        print(timestamp() + "JackettUpdate: Updating to version " + onlinefileversion + " finished! Update took " + totalupdatetime + ". Script exiting!")
         print('')
         print("*****************************************************************************")
         print("\n")
@@ -239,13 +240,8 @@ else:
         print(timestamp() + "JackettUpdate: Here's the error we got -- " + str(e))
 
 # Now well try and update the app if the user chose that option
+selfupdatestart = timer()
 if appupdate == 'True':
-    try:
-        returncode = subprocess.call("python3 selfupdate.py",shell=True)
-        if returncode != 0:
-            print('Python 3 was not found, falling back to python 2.')
-            returncode = subprocess.call("python selfupdate.py",shell=True)
-    except:
-        print("Couldn't launch Python for some reason to update script from github!")
+    import selfupdate
 
-sys.exit()
+quit()

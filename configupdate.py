@@ -32,7 +32,7 @@ while True:
 		print("")
 		print("Exiting config update and installer....")
 		print("")
-		sys.exit(1)
+		quit()
 	else:
 		print("")
 		print("Invalid Choice! Valid choices are 1-3 or C to cancel. Please Try again.")
@@ -162,7 +162,7 @@ while True:
 		print("")
 		print("Exiting config update and installer. No changes were made and nothing will be installed!")
 		print("")
-		sys.exit(1)
+		quit()
 	elif confirm == "CONFIRM":
 		break
 	else:
