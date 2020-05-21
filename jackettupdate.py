@@ -2,7 +2,7 @@
 # This Python file uses the following encoding: utf-8
 # JackettUpdate
 # Sets the version # for the command line -v/--version response
-versionnum = "1.3 Beta"
+versionnum = "1.4 Beta"
 
 import sys
 import os
