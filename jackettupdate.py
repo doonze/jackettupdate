@@ -3,6 +3,7 @@
 # JackettUpdate
 # Sets the version # for the command line -v/--version response
 versionnum = "1.4 Beta"
+app = "JackettUpdate: "
 
 import sys
 import os
@@ -49,9 +50,7 @@ try:
         print("")
         print("Config update started....")
         print("")
-        returncode = subprocess.call("python3 configupdate.py",shell=True)
-        if returncode > 1:
-            returncode = subprocess.call("python configupdate.py",shell=True)
+        import configupdate
 except Exception as e:
     print("JackettUpdate: Couldn't call the configupdater.")
     print("JackettUpdate: Here's the error we got -- " + str(e))
@@ -85,8 +84,9 @@ try:
     serverstart = config['SERVER']['startserver']
     appupdate = config['JackettUpdate']['autoupdate']
 except Exception as e:
-	print("JackettUpdate: Couldn't pull config info!!!")
-	print("JackettUpdate: Here's the error we got -- " + str(e))
+    print("JackettUpdate: Couldn't pull config info!!!")
+    print("JackettUpdate: Here's the error we got -- " + str(e))
+    quit()
 
 # The github API of releases for Jackett. This includes beta and production releases
 url = "https://api.github.com/repos/Jackett/Jackett/releases"
@@ -125,23 +125,23 @@ except Exception as e:
 
 # Linux AMD64 **************************
 if distro == "Linux X64":
-    downloadurl = "wget -q https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxAMDx64.tar.gz -P " + installpath 
+    downloadurl = "https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxAMDx64.tar.gz" 
     installfile = installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz"
-    installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz --totals"
+    installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz"
 #***************************************
 
 # Linux ARM32 **************************
 if distro == "Linux ARM32":
-    downloadurl = "wget -q https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM32.tar.gz -P " + installpath
+    downloadurl = "https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM32.tar.gz"
     installfile = installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
     installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
 #***************************************
 
 # Linux ARM64 ***************************
 if distro == "Linux ARM64":
-    downloadurl = "wget -q https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM64.tar.gz -P " + installpath
+    downloadurl = "https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM64.tar.gz"
     installfile = installpath + "Jackett.Binaries.LinuxARM64.tar.gz"
-    installcmd = "tar -C " + installpath + " -zxvf " + installpath + "Jackett.Binaries.LinuxARM64.tar.gz"
+    installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxARM64.tar.gz"
 #***************************************
 
 ###################################################################################################
@@ -154,7 +154,7 @@ try:
 except Exception as e:
     print("JackettUpdate: Couldn't pull version info from the config file!")
     print("JackettUpdate: Here's the error we got -- " + str(e))
-    sys.exit()
+    quit()
 
 # Ok, we've got all the info we need. Now we'll test if we even need to update or not.
 
@@ -168,57 +168,42 @@ if str(onlinefileversion) in str(fileversion):
 else:
     # If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
     print(timestamp() + "JackettUpdate: Most recent online version is " + onlinefileversion + " and current installed version is " + fileversion + ". We're updating Jackett.")
-    print("\n" + timestamp() + "JackettUpdate: Starting update......")
+    print(timestamp() + "JackettUpdate: Starting update......")
 
     try:
         # This will stop the server on a systemd distro if it's been set to true above
         if serverstop == "True":
             stopreturn = subprocess.call("systemctl stop " + servicename,shell=True)
-            print("")
-            print(timestamp() + "Server " + servicename + " being stopped...")
-            print("")
-            time.sleep(3)
-
+            print(timestamp(app) + "Server " + servicename + " being stopped...")
             if stopreturn > 0:
-                print("Server Stop failed! It didn't exist, wasn't running, or we had some other issue.")
+                print("{}Server Stop failed! It didn't exist, wasn't running, or we had some other issue.".format(timestamp(app)))
             
         # Here we download the package to install if used
         if "notused" not in downloadurl:
-            print(timestamp() + "Download started...")
-            print("")
-            downreturn = subprocess.call(downloadurl,shell=True)
-            print("")
-            print(timestamp() + "Download Finished.")
-            print("")
-            if downreturn > 0:
-                print("Download failed!! Exiting!")
-                sys.exit()
+            print(timestamp(app) + "Download started...")
+            print(getfile(downloadurl, installpath))
+            print(timestamp(app) + "Download Finished.")
 
         # Next we install it if used
         if "notused" not in installcmd:
-            print(timestamp() + "Install/Update started...")
-            print("")
+            print(timestamp(app) + "Install/Update started...")
             installreturn = subprocess.call(installcmd,shell=True)
-            print("")
-            print(timestamp() + "Install/Update finished.")
-            print("")
+            print(timestamp(app) + "Install/Update finished.")
             if installreturn > 0:
-                print("Install failed! Exiting!")
+                print("{}Install failed! Exiting!".format(timestamp(app)))
                 sys.exit()
 
         # And to keep things nice and clean, we remove the downloaded file once installed if needed
         if "notused" not in installfile:
             subprocess.call("rm -f " + installfile,shell=True)
-            print(timestamp() + "Install file " + installfile + " removed.")
+            print(timestamp(app) + "Install file " + installfile + " removed.")
 
         # This will restart the server if using systemd if set to True above
         if serverstart == "True":
             startreturn = subprocess.call("systemctl start " + servicename,shell=True)
-            print("")
-            print(timestamp() + "Server being Started.")
-            print("")
+            print(timestamp(app) + "Server being Started.")
             if startreturn > 0:
-                print("Server start failed. Non-critical to update but server may not be running. Investigate.")
+                print("{}Server start failed. Non-critical to update but server may not be running. Investigate.".format(timestamp(app)))
                 
             # Lastly we write the newly installed version into the config file
         try:
@@ -232,8 +217,6 @@ else:
         updateend = timer()
         totalupdatetime = display_time(updateend - updatestart)
         print(timestamp() + "JackettUpdate: Updating to version " + onlinefileversion + " finished! Update took " + totalupdatetime + ". Script exiting!")
-        print('')        
-        print("\n")
 
     except Exception as e:
         print(timestamp() + 'JackettUpdate: Something failed in update. No update done, script exiting')
