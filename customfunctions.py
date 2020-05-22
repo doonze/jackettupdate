@@ -2,6 +2,7 @@ import time
 import os
 import requests
 import sys
+import tarfile
 from timeit import default_timer as timer
 from requests.exceptions import HTTPError
 
@@ -88,3 +89,34 @@ def getfile(url, SavePath=sys.path[0]):
         return  timestamp() + "Get File Error! Dowload worked, error in writing file? Error code was: {}".format(err)
     return dlresults
 #*************************************************************************************************************************************
+
+# Function for extracing tar files
+# Jackett uses "r:gz", as do most tars it seems I've used, so that's the default 
+# Here are the list of modes
+# 'r' or 'r:*' Open for reading with transparent compression (recommended)
+# 'r:' Open for reading exclusively without compression
+# 'r:gz' Open for reading with gzip compression
+# 'r:bz2' Open for reading with bzip2 compression
+# 'a' or 'a:' Open for appending with no compression. The file is created if it does not exist
+# 'w' or 'w:' Open for uncompressed writing
+# 'w:gz' Open for gzip compressed writing
+# 'w:bz2' Open for bzip2 compressed writing
+
+def tar_extract(File, Path=sys.path[0], Mode="r:gz"):
+    try:
+        extractedsize = 0
+        startextract = timer()
+        tar = tarfile.open(File, Mode)
+        for tarinfo in tar:
+          extractedsize = extractedsize + tarinfo.size
+        tar.extractall(Path)
+        tar.close() 
+        endextract = timer()
+        filesize = sizeoffile(File,Path)
+        extracttime = display_time(endextract - startextract)
+        extractedsize = sizeof(extractedsize)
+        result = "File: {} Tar Size: {} Extracted Size: {} and was extracted in {}".format(File, filesize, extractedsize , extracttime)
+    except Exception as err:
+        return "Tar Extract Error! Error code was: {}".format(err)
+    return result
+#************************************************************************************************
