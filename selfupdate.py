@@ -82,6 +82,7 @@ if str(onlinefileversion) in str(appversion):
     totalupdatetime = customfunctions.display_time(selfupdateend - selfupdatestart)
     # If the latest online version matches the last installed version then we let you know and exit
     print("{}App is up to date! Current and Online versions are at {}. Check took {}.".format(timestamp(app), onlinefileversion, totalupdatetime))
+    print("")
     quit()
 else:
 	# If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
