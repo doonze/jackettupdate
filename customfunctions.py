@@ -2,6 +2,7 @@ import time
 import os
 import requests
 import sys
+from timeit import default_timer as timer
 from requests.exceptions import HTTPError
 
 #Setting up a way to display time in human readable format
@@ -43,7 +44,7 @@ def sizeoffile(File, Path=sys.path[0]):
 
 # If passed a size in bytes it will convert to human readable sizes
 def sizeof(num, suffix='B'):   
-    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+    for unit in ['','K','M','G','T','P','E','Z']:
         if abs(num) < 1024.0:
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
@@ -54,9 +55,10 @@ def sizeof(num, suffix='B'):
 # If not save path is given, it will default to the same path as the calling script
 def getfile(url, SavePath=sys.path[0]):
     try:
+        dlstart = timer()
         # Here we pull in the file and save it to returnedfile
         returnedfile = requests.get(url)
-
+        
         # Next we'll check to see if the download was successful, if not we raise an exception handled below    
         returnedfile.raise_for_status()
 
@@ -76,12 +78,13 @@ def getfile(url, SavePath=sys.path[0]):
         # Next we open the file in the save location, then write the file there
         open(fullfilepath, "wb").write(returnedfile.content)
 
+        total_dl_time = display_time(timer() - dlstart)
         # All that's left is to return the results to the user
-        dlresults = timestamp() + "File:{} Size:{} was downloaded taking {}".format(FileName, sizeoffile(FileName, SavePath), display_time(returnedfile.elapsed.seconds))
-
+        dlresults = timestamp() + "File:{} Size:{} was downloaded taking {}".format(FileName, sizeoffile(FileName, SavePath), total_dl_time)
+        
     except HTTPError as http_err:
         return  timestamp() + "Download Failed! Condition code was: {}".format(http_err)
     except Exception as err:
-        return  timestamp() + "Download Failed! Error code was: {}".format(err)
+        return  timestamp() + "Get File Error! Dowload worked, error in writing file? Error code was: {}".format(err)
     return dlresults
 #*************************************************************************************************************************************
