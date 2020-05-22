@@ -128,6 +128,7 @@ if distro == "Linux X64":
     downloadurl = "https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxAMDx64.tar.gz" 
     installfile = installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz"
     installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxAMDx64.tar.gz"
+    FileName = "Jackett.Binaries.LinuxAMDx64.tar.gz"
 #***************************************
 
 # Linux ARM32 **************************
@@ -135,6 +136,7 @@ if distro == "Linux ARM32":
     downloadurl = "https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM32.tar.gz"
     installfile = installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
     installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxARM32.tar.gz"
+    FileName = "Jackett.Binaries.LinuxARM32.tar.gz"
 #***************************************
 
 # Linux ARM64 ***************************
@@ -142,6 +144,7 @@ if distro == "Linux ARM64":
     downloadurl = "https://github.com/Jackett/Jackett/releases/download/" + onlineversion + "/Jackett.Binaries.LinuxARM64.tar.gz"
     installfile = installpath + "Jackett.Binaries.LinuxARM64.tar.gz"
     installcmd = "tar -C " + installpath + " -zxf " + installpath + "Jackett.Binaries.LinuxARM64.tar.gz"
+    FileName = "Jackett.Binaries.LinuxARM64.tar.gz"
 #***************************************
 
 ###################################################################################################
@@ -187,11 +190,9 @@ else:
         # Next we install it if used
         if "notused" not in installcmd:
             print(timestamp(app) + "Install/Update started...")
-            installreturn = subprocess.call(installcmd,shell=True)
+            print("{}{}".format(timestamp(), tar_extract(FileName, installpath)))
             print(timestamp(app) + "Install/Update finished.")
-            if installreturn > 0:
-                print("{}Install failed! Exiting!".format(timestamp(app)))
-                sys.exit()
+            
 
         # And to keep things nice and clean, we remove the downloaded file once installed if needed
         if "notused" not in installfile:
