@@ -163,7 +163,8 @@ end = timer()
 if str(onlinefileversion) in str(fileversion):
     # If the latest online version matches the last installed version then we let you know and exit
     print(timestamp() + "JackettUpdate: We're up to date!  Current and Online versions are at " + onlinefileversion + ".")
-    print('***')    
+    if appupdate == "False":
+        print("")  
 else:
     # If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
     print(timestamp() + "JackettUpdate: Most recent online version is " + onlinefileversion + " and current installed version is " + fileversion + ". We're updating Jackett.")
@@ -242,5 +243,6 @@ else:
 selfupdatestart = timer()
 if appupdate == 'True':
     import selfupdate
+
 print("*****************************************************************************")
 quit()
