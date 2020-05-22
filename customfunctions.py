@@ -27,9 +27,9 @@ def display_time(seconds, granularity=2):
 #***********************************************************
 
 # This is a simple timestamp function, created so each call would have a current timestamp
-def timestamp():
+def timestamp(app=""):
     ts = time.strftime("%x %X", time.localtime())
-    return ("<" + ts + "> ")
+    return ("<" + ts + "> {}".format(app))
 #******************************************************************************************
 
 # Pass a file name (if in same directory as script) or a file name and a path
