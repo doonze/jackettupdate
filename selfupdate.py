@@ -2,6 +2,7 @@
 # This Python file uses the following encoding: utf-8
 # This program is used can called by the main program to update the app itself if needed
 # JackettUpdate selfupdate file
+app = "JackettUpdate(self): "
 import sys
 import os
 import json
@@ -34,8 +35,8 @@ config.read('config.ini')
 try:
     appversion = config['JackettUpdate']['version']
 except Exception as e:
-    print(timestamp() + "JackettUpdate(self): We couldn't pull the current version from the config file!")
-    print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
+    print(timestamp(app) + "We couldn't pull the current version from the config file!")
+    print(timestamp(app) + "Here's the error we got -- " + str(e))
     sys.exit()
 
 # We're going to force the working path to be where the script lives
@@ -63,8 +64,8 @@ try:
                 versiontype = "Stable"
                 break
 except Exception as e:
-    print(timestamp() + "JackettUpdate(self): We didn't get an expected response from the github api, script is exiting!")
-    print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
+    print(timestamp(app) + "We didn't get an expected response from the github api, script is exiting!")
+    print(timestamp(app) + "Here's the error we got -- " + str(e))
     print(e)
     sys.exit()
     
@@ -78,14 +79,14 @@ onlinefileversion = (onlineversion + "-" + versiontype)
 
 if str(onlinefileversion) in str(appversion):
     # If the latest online version matches the last installed version then we let you know and exit
-    print(timestamp() + "JackettUpdate(self): App is up to date!  Current and Online versions are at " + onlinefileversion + ".")
+    print(timestamp(app) + "App is up to date!  Current and Online versions are at " + onlinefileversion + ".")
     sys.exit()
 else:
 	# If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
     print('')
-    print(timestamp() + "JackettUpdate(self): Most recent app online version is " + onlinefileversion + " and current installed version is " + appversion + ". We're updating JackettUpdate app.")
+    print(timestamp(app) + "Most recent app online version is " + onlinefileversion + " and current installed version is " + appversion + ". We're updating JackettUpdate app.")
     print('')
-    print("\n" + timestamp() + "JackettUpdate(self): Starting self app update, installing to " + str(sys.path[0]) + "......")
+    print("\n" + timestamp(app) + "Starting self app update, installing to " + str(sys.path[0]) + "......")
     print('')
 
    	# Here we download the zip to install          
@@ -113,12 +114,12 @@ else:
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
     except Exception as e:
-        print(timestamp() + "JackettUpdate(self): We couldn't write the installed version to the config file!")
-        print(timestamp() + "JackettUpdate(self): Here's the error we got -- " + str(e))
+        print(timestamp(app) + "We couldn't write the installed version to the config file!")
+        print(timestamp(app) + "Here's the error we got -- " + str(e))
         quit()
     
     print('')
-    print(timestamp() + "JackettUpdate(self): Updating to JackettUpdate app version " + onlinefileversion + " finished! Script exiting!")
+    print(timestamp(app) + "JackettUpdate(self): Updating to JackettUpdate app version " + onlinefileversion + " finished! Script exiting!")
     print('')
     print("*****************************************************************************")
     print("\n")
