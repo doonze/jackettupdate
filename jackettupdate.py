@@ -231,8 +231,7 @@ else:
         updateend = timer()
         totalupdatetime = display_time(updateend - updatestart)
         print(timestamp() + "JackettUpdate: Updating to version " + onlinefileversion + " finished! Update took " + totalupdatetime + ". Script exiting!")
-        print('')
-        print("*****************************************************************************")
+        print('')        
         print("\n")
 
     except Exception as e:
@@ -243,5 +242,5 @@ else:
 selfupdatestart = timer()
 if appupdate == 'True':
     import selfupdate
-
+print("*****************************************************************************")
 quit()

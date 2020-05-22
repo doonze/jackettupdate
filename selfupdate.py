@@ -120,6 +120,5 @@ else:
     
     print('')
     print(timestamp(app) + "JackettUpdate(self): Updating to JackettUpdate app version " + onlinefileversion + " finished! Script exiting!")
-    print('')
-    print("*****************************************************************************")
+    print('')    
     print("\n")
