@@ -11,9 +11,13 @@ import time
 import pprint
 import zipfile
 import subprocess
+from timeit import default_timer as timer
 from configparser import ConfigParser
 import configparser
+from customfunctions import timestamp
+import customfunctions
 
+selfupdatestart = timer()
 # Sets up the config system
 config = configparser.ConfigParser()
 
@@ -36,11 +40,6 @@ except Exception as e:
 
 # We're going to force the working path to be where the script lives
 os.chdir(sys.path[0])
-
-# This is a simple timestamp function, created so each call would have a current timestamp
-def timestamp():
-	ts = time.strftime("%x %X", time.localtime())
-	return ("<" + ts + "> ")
 
 # The github API of releases for app. This includes beta and production releases
 url = "https://api.github.com/repos/doonze/jackettupdate/releases"
@@ -70,7 +69,7 @@ except Exception as e:
     sys.exit()
     
 # Download URL for my github page (app home page) and we'll set the name of the current zip file
-downloadurl = "wget -nv https://github.com/doonze/JackettUpdate/archive/" + onlineversion + ".zip" 
+downloadurl = "https://github.com/doonze/JackettUpdate/archive/" + onlineversion + ".zip" 
 zfile = onlineversion + ".zip"
 
 # Ok, we've got all the info we need. Now we'll test if we even need to update or not.
@@ -86,18 +85,19 @@ else:
     print('')
     print(timestamp() + "JackettUpdate(self): Most recent app online version is " + onlinefileversion + " and current installed version is " + appversion + ". We're updating JackettUpdate app.")
     print('')
-    print("\n" + timestamp() + "JackettUpdate(self): Starting self app update......")
+    print("\n" + timestamp() + "JackettUpdate(self): Starting self app update, installing to " + str(sys.path[0]) + "......")
     print('')
 
-   	# Here we download the zip to install
-    subprocess.call(downloadurl,shell=True)
-
+   	# Here we download the zip to install          
+    print(customfunctions.getfile(downloadurl))
+    
 	# Next we unzip and install it to the directory where the app was ran from
     with zipfile.ZipFile(zfile) as zip:
         for zip_info in zip.infolist():
             if zip_info.filename[-1] == '/':
                 continue
-            zip_info.filename = os.path.basename(zip_info.filename)
+            zipversion = onlineversion.replace("v", "")
+            zip_info.filename = zip_info.filename.replace("jackettupdate-" + zipversion + "/", "")
             zip.extract(zip_info, '')
 
 	# And to keep things nice and clean, we remove the downloaded file once unzipped
