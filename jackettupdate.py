@@ -181,16 +181,16 @@ else:
             if stopreturn > 0:
                 print("{}Server Stop failed! It didn't exist, wasn't running, or we had some other issue.".format(timestamp(app)))
             
-        # Here we download the package to install if used
+        # Here we download the tar file
         if "notused" not in downloadurl:
             print(timestamp(app) + "Download started...")
             print(getfile(downloadurl, installpath))
             print(timestamp(app) + "Download Finished.")
 
-        # Next we install it if used
+        # Next we install it with tar
         if "notused" not in installcmd:
             print(timestamp(app) + "Install/Update started...")
-            print("{}{}".format(timestamp(), tar_extract(FileName, installpath)))
+            print("{}{}".format(timestamp(), tar_extract(FileName, installpath)))            
             print(timestamp(app) + "Install/Update finished.")
             
 
