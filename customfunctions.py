@@ -55,6 +55,7 @@ def sizeof(num, suffix='B'):
 # Used to download files. Feed it a url, and optionally a save path, and it will download the file
 # If not save path is given, it will default to the same path as the calling script
 def getfile(url, SavePath=sys.path[0]):
+    
     try:
         dlstart = timer()
         # Here we pull in the file and save it to returnedfile
@@ -102,20 +103,40 @@ def getfile(url, SavePath=sys.path[0]):
 # 'w:gz' Open for gzip compressed writing
 # 'w:bz2' Open for bzip2 compressed writing
 
-def tar_extract(File, Path=sys.path[0], Mode="r:gz"):
+def tar_extract(File, Path=sys.path[0], Mode="r:gz"): 
+
     try:
+        # Just to make life easy, we'll test if the path already ends in a / or not. If it doesn't we'll add one
+        if Path[-1] != "/":
+            Path = Path + "/"
+        
+        # Then we set extractedsize to just to not get a null excpetion 
         extractedsize = 0
+
+        #Start the timer for keeping track of how long the extract took
         startextract = timer()
-        tar = tarfile.open(File, Mode)
+
+        #Then we open the tar file for reading
+        tar = tarfile.open(Path + File, Mode)
+        
+        #Now we loop through the tar to get the size it will be once extracted
         for tarinfo in tar:
           extractedsize = extractedsize + tarinfo.size
+        
+        # Now we extract opened tar file to the set path, then close the tar file
         tar.extractall(Path)
-        tar.close() 
+        tar.close()
+
+        # We end the extract process timer 
         endextract = timer()
+
+        # Now we figure out the filesize the tar we downloaded, how long it took to extract
+        # the extracted size in a human readable form, and write the return string of the results
         filesize = sizeoffile(File,Path)
         extracttime = display_time(endextract - startextract)
         extractedsize = sizeof(extractedsize)
         result = "File: {} Tar Size: {} Extracted Size: {} and was extracted in {}".format(File, filesize, extractedsize , extracttime)
+
     except Exception as err:
         return "Tar Extract Error! Error code was: {}".format(err)
     return result
