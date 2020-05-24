@@ -7,7 +7,12 @@ JackettUpdate 1.4 Beta
 * Added app variable for use in timestamp to each updater
 * removed wget and now using request.get through getfile function to download files
 * removed tar subprocess and now using pythons tarfile to extract tars, function tar_extract added to customfunctions
-* function tar_extract now being used in jackettupdate 
+* Function tar_extract now being used in jackettupdate
+* Function remove_file added to customfunctions, python is now removing the tar file instead of subprocess
+* Added logic to handle bad returns it a way the server still gets restarted but the version isn't Updated
+* Changed the formatting of timestamps to look cleaner
+* Wrote step by step comments in my functions for customfunctions
+*  
 
 
 JackettUpdate Version 1.3 Beta

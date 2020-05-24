@@ -7,7 +7,7 @@ from timeit import default_timer as timer
 from requests.exceptions import HTTPError
 
 #Setting up a way to display time in human readable format
-def display_time(seconds, granularity=2):
+def display_time(seconds, granularity = 2):
     intervals = (
     ('weeks', 604800),  # 60 * 60 * 24 * 7
     ('days', 86400),    # 60 * 60 * 24
@@ -29,14 +29,14 @@ def display_time(seconds, granularity=2):
 #***********************************************************
 
 # This is a simple timestamp function, created so each call would have a current timestamp
-def timestamp(app=""):
+def timestamp(app = ""):
     ts = time.strftime("%x %X", time.localtime())
-    return ("<" + ts + "> {}".format(app))
+    return (ts + " - {}".format(app))
 #******************************************************************************************
 
 # Pass a file name (if in same directory as script) or a file name and a path
 # example: sizeoffile("file.py") or sizeoffile("file.py", "/path/to/file/")
-def sizeoffile(File, Path=sys.path[0]):
+def sizeoffile(File, Path = sys.path[0]):
     if Path[-1] != "/":
         Path = Path + "/"
     pathtofile = Path + File
@@ -54,7 +54,7 @@ def sizeof(num, suffix='B'):
 
 # Used to download files. Feed it a url, and optionally a save path, and it will download the file
 # If not save path is given, it will default to the same path as the calling script
-def getfile(url, SavePath=sys.path[0]):
+def getfile(url, SavePath = sys.path[0],app=""):
     
     try:
         dlstart = timer()
@@ -82,16 +82,16 @@ def getfile(url, SavePath=sys.path[0]):
 
         total_dl_time = display_time(timer() - dlstart)
         # All that's left is to return the results to the user
-        dlresults = timestamp() + "File:{} Size:{} was downloaded taking {}".format(FileName, sizeoffile(FileName, SavePath), total_dl_time)
+        dlresults = timestamp(app) + "File:{} Size:{} was downloaded taking {}".format(FileName, sizeoffile(FileName, SavePath), total_dl_time)
         
     except HTTPError as http_err:
-        return  timestamp() + "Download Failed! Condition code was: {}".format(http_err)
+        return  timestamp(app) + "Download Failed! Condition code was: {}".format(http_err)
     except Exception as err:
-        return  timestamp() + "Get File Error! Dowload worked, error in writing file? Error code was: {}".format(err)
+        return  timestamp(app) + "Get File Error! Download worked, error in writing file? Error code was: {}".format(err)
     return dlresults
 #*************************************************************************************************************************************
 
-# Function for extracing tar files
+# Function for extracing tar files ***************************************************************************************************
 # Jackett uses "r:gz", as do most tars it seems I've used, so that's the default 
 # Here are the list of modes
 # 'r' or 'r:*' Open for reading with transparent compression (recommended)
@@ -103,7 +103,7 @@ def getfile(url, SavePath=sys.path[0]):
 # 'w:gz' Open for gzip compressed writing
 # 'w:bz2' Open for bzip2 compressed writing
 
-def tar_extract(File, Path=sys.path[0], Mode="r:gz"): 
+def tar_extract(File, Path=sys.path[0], Mode="r:gz", RemoveFile=False, app=""): 
 
     try:
         # Just to make life easy, we'll test if the path already ends in a / or not. If it doesn't we'll add one
@@ -127,17 +127,63 @@ def tar_extract(File, Path=sys.path[0], Mode="r:gz"):
         tar.extractall(Path)
         tar.close()
 
+        #Before we (optionally) remove the file, we'll get it's size
+        filesize = sizeoffile(File,Path)
+
+        #Option to remove the file after installing (Default is False)
+        if RemoveFile == True:
+            RemoveResult = remove_file(File, Path)
+        else:
+            RemoveResult = "{} not removed".format(Path + File)
         # We end the extract process timer 
         endextract = timer()
 
-        # Now we figure out the filesize the tar we downloaded, how long it took to extract
-        # the extracted size in a human readable form, and write the return string of the results
-        filesize = sizeoffile(File,Path)
+        # Now we figure out how long it took to extract, the extracted size in a human readable form, 
+        # and write the return string of the results        
         extracttime = display_time(endextract - startextract)
         extractedsize = sizeof(extractedsize)
-        result = "File: {} Tar Size: {} Extracted Size: {} and was extracted in {}".format(File, filesize, extractedsize , extracttime)
+
+        # Now we build a dictionary to hold the return results
+        result = "{}File: {} Tar Size: {} Extracted Size: {} and was extracted in {}".format(timestamp(app), File, filesize, extractedsize , extracttime)
+        result = result + "\n{}{}".format(timestamp(app), RemoveResult)
+        ReturnCode = 0
+        Results = {
+            "result" : result,
+            "ReturnCode" : ReturnCode
+        }
 
     except Exception as err:
-        return "Tar Extract Error! Error code was: {}".format(err)
-    return result
-#************************************************************************************************
+        result = "Tar Extract Error! Error code was: {}".format(err)
+        ReturnCode = 1
+        Results = {
+            "result" : result,
+            "ReturnCode" : ReturnCode
+        }
+        return Results
+        
+    return Results
+#***********************************************************************************************************************************
+
+
+# Function to remove a file in a given path **************************************************************
+def remove_file(File, Path = sys.path[0]):
+    
+    try:
+        # First we make sure the path has a / on the end
+        if Path[-1] != "/":
+            Path = Path + "/"
+
+        # Now we build the path to delete the file
+        FullPath = (Path + File)
+
+        # We'll check to make sure the file exist before removing it, and let the user know if it doesn't
+        if os.path.exists(FullPath):
+            os.remove(FullPath)
+        else:
+            return "Delete error: {} does not exist. Nothing removed.".format(FullPath)
+
+    except Exception as e:
+        return "Remove File exception! Here's the error: {}".format(e)
+
+    return "{} removed.".format(FullPath)
+#**********************************************************************************************************

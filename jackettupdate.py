@@ -162,10 +162,12 @@ except Exception as e:
 # Ok, we've got all the info we need. Now we'll test if we even need to update or not.
 
 onlinefileversion = (onlineversion + "-" + versiontype)
-end = timer()
+
 if str(onlinefileversion) in str(fileversion):
-    # If the latest online version matches the last installed version then we let you know and exit
-    print(timestamp() + "JackettUpdate: We're up to date!  Current and Online versions are at " + onlinefileversion + ".")
+    updateend = timer()
+    totalupdatetime = display_time(updateend - updatestart)
+    # If the latest online version matches the last installed version then we let you know and quit Jackett update
+    print("{}We're up to date! Current and Online versions are at {}. Check took {}.".format(timestamp(app), onlinefileversion, totalupdatetime))
     if appupdate == "False":
         print("")  
 else:
@@ -174,6 +176,7 @@ else:
     print(timestamp() + "JackettUpdate: Starting update......")
 
     try:
+        BadCode = False
         # This will stop the server on a systemd distro if it's been set to true above
         if serverstop == "True":
             stopreturn = subprocess.call("systemctl stop " + servicename,shell=True)
@@ -184,20 +187,21 @@ else:
         # Here we download the tar file
         if "notused" not in downloadurl:
             print(timestamp(app) + "Download started...")
-            print(getfile(downloadurl, installpath))
+            print(getfile(downloadurl, installpath, app))
             print(timestamp(app) + "Download Finished.")
 
-        # Next we install it with tar
+        # Next we install it with tar then remove the install file
         if "notused" not in installcmd:
             print(timestamp(app) + "Install/Update started...")
-            print("{}{}".format(timestamp(), tar_extract(FileName, installpath)))            
-            print(timestamp(app) + "Install/Update finished.")
-            
+            ReturnResult = tar_extract(FileName, installpath, app=app, RemoveFile=True)
 
-        # And to keep things nice and clean, we remove the downloaded file once installed if needed
-        if "notused" not in installfile:
-            subprocess.call("rm -f " + installfile,shell=True)
-            print(timestamp(app) + "Install file " + installfile + " removed.")
+            if ReturnResult["ReturnCode"] == 0:
+                print("{}".format(ReturnResult["result"])) 
+            else:
+                BadCode = True
+                print("{}".format(ReturnResult["result"]))
+                       
+            print(timestamp(app) + "Install/Update finished.")
 
         # This will restart the server if using systemd if set to True above
         if serverstart == "True":
@@ -208,25 +212,26 @@ else:
                 
             # Lastly we write the newly installed version into the config file
         try:
-            config['SERVER']['jackettversion'] = onlinefileversion
-            with open('config.ini', 'w') as configfile:
-                config.write(configfile)
+            if BadCode == False:
+                config['SERVER']['jackettversion'] = onlinefileversion
+                with open('config.ini', 'w') as configfile:
+                    config.write(configfile)
+                updateend = timer()
+                totalupdatetime = display_time(updateend - updatestart)
+                print(timestamp() + "JackettUpdate: Updating to version " + onlinefileversion + " finished! Update took " + totalupdatetime + ". Script exiting!")
+            else:
+                print("{}Install failed! See logs! Version not updated!".format(timestamp(app)))
         except Exception as e:
-            print("JackettUpdate: Couldn't write into the config file!")
-            print("JackettUpdate: Here's the error we got -- " + str(e))
-            sys.exit()        
-        updateend = timer()
-        totalupdatetime = display_time(updateend - updatestart)
-        print(timestamp() + "JackettUpdate: Updating to version " + onlinefileversion + " finished! Update took " + totalupdatetime + ". Script exiting!")
+            print("{}Couldn't write into the config file!".format(timestamp(app)))
+            print("{}Here's the error we got -- {}".format(timestamp(app), e))        
 
     except Exception as e:
         print(timestamp() + 'JackettUpdate: Something failed in update. No update done, script exiting')
         print(timestamp() + "JackettUpdate: Here's the error we got -- " + str(e))
 
 # Now well try and update the app if the user chose that option
-selfupdatestart = timer()
+
 if appupdate == 'True':
     import selfupdate
 
-print("*****************************************************************************")
 quit()
