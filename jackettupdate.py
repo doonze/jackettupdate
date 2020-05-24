@@ -176,8 +176,10 @@ else:
     print(timestamp() + "JackettUpdate: Starting update......")
 
     try:
+
         BadCode = False
-        # This will stop the server on a systemd distro if it's been set to true above
+
+        # This will stop the server on a systemd distro if it's been set to true
         if serverstop == "True":
             stopreturn = subprocess.call("systemctl stop " + servicename,shell=True)
             print(timestamp(app) + "Server " + servicename + " being stopped...")
@@ -195,6 +197,7 @@ else:
             print(timestamp(app) + "Install/Update started...")
             ReturnResult = tar_extract(FileName, installpath, app=app, RemoveFile=True)
 
+            # Now we test the returned dictionary for a return code and react accordingly
             if ReturnResult["ReturnCode"] == 0:
                 print("{}".format(ReturnResult["result"])) 
             else:
@@ -210,7 +213,7 @@ else:
             if startreturn > 0:
                 print("{}Server start failed. Non-critical to update but server may not be running. Investigate.".format(timestamp(app)))
                 
-            # Lastly we write the newly installed version into the config file
+            # Lastly we write the newly installed version into the config file if the return codes were ok
         try:
             if BadCode == False:
                 config['SERVER']['jackettversion'] = onlinefileversion
