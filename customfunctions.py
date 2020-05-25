@@ -28,23 +28,23 @@ def display_time(seconds, granularity = 2):
     return ', '.join(result[:granularity])
 #***********************************************************
 
-# This is a simple timestamp function, created so each call would have a current timestamp
-def timestamp(app = ""):
+# This is a simple time_stamp function, created so each call would have a current time_stamp
+def time_stamp(app = ""):
     ts = time.strftime("%x %X", time.localtime())
     return (ts + " - {}".format(app))
 #******************************************************************************************
 
 # Pass a file name (if in same directory as script) or a file name and a path
-# example: sizeoffile("file.py") or sizeoffile("file.py", "/path/to/file/")
-def sizeoffile(File, Path = sys.path[0]):
+# example: size_of_file("file.py") or size_of_file("file.py", "/path/to/file/")
+def size_of_file(File, Path = sys.path[0]):
     if Path[-1] != "/":
         Path = Path + "/"
     pathtofile = Path + File
-    result = sizeof(os.path.getsize(pathtofile))
+    result = size_of(os.path.getsize(pathtofile))
     return result
 
 # If passed a size in bytes it will convert to human readable sizes
-def sizeof(num, suffix='B'):   
+def size_of(num, suffix='B'):   
     for unit in ['','K','M','G','T','P','E','Z']:
         if abs(num) < 1024.0:
             return "%3.1f%s%s" % (num, unit, suffix)
@@ -54,7 +54,7 @@ def sizeof(num, suffix='B'):
 
 # Used to download files. Feed it a url, and optionally a save path, and it will download the file
 # If not save path is given, it will default to the same path as the calling script
-def getfile(url, SavePath = sys.path[0],app=""):
+def get_file(url, SavePath = sys.path[0],app=""):
     
     try:
         dlstart = timer()
@@ -82,12 +82,12 @@ def getfile(url, SavePath = sys.path[0],app=""):
 
         total_dl_time = display_time(timer() - dlstart)
         # All that's left is to return the results to the user
-        dlresults = timestamp(app) + "File:{} Size:{} was downloaded taking {}".format(FileName, sizeoffile(FileName, SavePath), total_dl_time)
+        dlresults = time_stamp(app) + "File:{} Size:{} was downloaded taking {}".format(FileName, size_of_file(FileName, SavePath), total_dl_time)
         
     except HTTPError as http_err:
-        return  timestamp(app) + "Download Failed! Condition code was: {}".format(http_err)
+        return  time_stamp(app) + "Download Failed! Condition code was: {}".format(http_err)
     except Exception as err:
-        return  timestamp(app) + "Get File Error! Download worked, error in writing file? Error code was: {}".format(err)
+        return  time_stamp(app) + "Get File Error! Download worked, error in writing file? Error code was: {}".format(err)
     return dlresults
 #*************************************************************************************************************************************
 
@@ -128,24 +128,23 @@ def tar_extract(File, Path=sys.path[0], Mode="r:gz", RemoveFile=False, app=""):
         tar.close()
 
         #Before we (optionally) remove the file, we'll get it's size
-        filesize = sizeoffile(File,Path)
+        filesize = size_of_file(File,Path)
 
         #Option to remove the file after installing (Default is False)
         if RemoveFile == True:
-            RemoveResult = remove_file(File, Path)
-        else:
-            RemoveResult = "{} not removed".format(Path + File)
+            RemoveResult = remove_file(File, Path, app)
+        
         # We end the extract process timer 
         endextract = timer()
 
         # Now we figure out how long it took to extract, the extracted size in a human readable form, 
         # and write the return string of the results        
         extracttime = display_time(endextract - startextract)
-        extractedsize = sizeof(extractedsize)
+        extractedsize = size_of(extractedsize)
 
         # Now we build a dictionary to hold the return results
-        result = "{}File: {} Tar Size: {} Extracted Size: {} and was extracted in {}".format(timestamp(app), File, filesize, extractedsize , extracttime)
-        result = result + "\n{}{}".format(timestamp(app), RemoveResult)
+        result = "{}File: {} Tar Size: {} Extracted Size: {} and was extracted in {}".format(time_stamp(app), File, filesize, extractedsize , extracttime)
+        result = result + "\n{}".format(RemoveResult)
         ReturnCode = 0
         Results = {
             "result" : result,
@@ -166,7 +165,7 @@ def tar_extract(File, Path=sys.path[0], Mode="r:gz", RemoveFile=False, app=""):
 
 
 # Function to remove a file in a given path **************************************************************
-def remove_file(File, Path = sys.path[0]):
+def remove_file(File, Path = sys.path[0], app=""):
     
     try:
         # First we make sure the path has a / on the end
@@ -180,10 +179,10 @@ def remove_file(File, Path = sys.path[0]):
         if os.path.exists(FullPath):
             os.remove(FullPath)
         else:
-            return "Delete error: {} does not exist. Nothing removed.".format(FullPath)
+            return "{}Delete error: {} does not exist. Nothing removed.".format(time_stamp(app), FullPath)
 
     except Exception as e:
-        return "Remove File exception! Here's the error: {}".format(e)
+        return "{}Remove File exception! Here's the error: {}".format(time_stamp(app), e)
 
-    return "{} removed.".format(FullPath)
+    return "{}{} removed.".format(time_stamp(app), FullPath)
 #**********************************************************************************************************
