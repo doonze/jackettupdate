@@ -1,19 +1,19 @@
-JackettUpdate 1.4 Beta
-* Using import now to run the sub files instead of subprocess threads
-* added customfunctions.py to project. The idea is I can use this file in projects down the road.
-* Added timers to the download and overall run time of both jackettupdate and selfupdate
+JackettUpdate 1.5 Beta (Rolled 5/24 2020)
 * Created getfile for downloading files, display_time to give human readable in customfunctions
 * Moved timestamp function into customfunctions and you can now give it a sting to output as well
 * Added app variable for use in timestamp to each updater
-* removed wget and now using request.get through getfile function to download files
-* removed tar subprocess and now using pythons tarfile to extract tars, function tar_extract added to customfunctions
+* Removed subprocess call to wget and now using request.get through getfile function to download files
+* Removed tar subprocess and now using pythons tarfile to extract tars, function tar_extract added to customfunctions
 * Function tar_extract now being used in jackettupdate
 * Function remove_file added to customfunctions, python is now removing the tar file instead of subprocess
 * Added logic to handle bad returns it a way the server still gets restarted but the version isn't Updated
 * Changed the formatting of timestamps to look cleaner
 * Wrote step by step comments in my functions for customfunctions
-*  
 
+JackettUpdate 1.4 Beta
+* Using import now to run the sub files instead of subprocess threads
+* added customfunctions.py to project. The idea is I can use this file in projects down the road.
+* Added timers to the download and overall run time of both jackettupdate and selfupdate
 
 JackettUpdate Version 1.3 Beta
 * Cleaned up some verbiage of output
