@@ -11,7 +11,7 @@
 ###############################################################################################
 
 # Sets the version # for the command line -v/--version response
-versionnum = "1.4 Beta"
+versionnum = "2.0 Beta"
 app = "JackettUpdate: "
 
 if __name__ == "__main__":

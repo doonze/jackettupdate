@@ -34,3 +34,6 @@ selfupdate.pyc
 customfunctions.pyc
 beta/tartest.py
 beta/Jackett.Binaries.Mono.tar.gz
+__pycache__/configread.cpython-37.pyc
+__pycache__/jackettupdate.cpython-37.pyc
+__pycache__/mainupdate.cpython-37.pyc
