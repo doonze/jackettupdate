@@ -18,7 +18,6 @@ from configparser import ConfigParser
 import configparser
 from customfunctions import time_stamp, get_file, display_time, remove_file
 from configread import appversion
-print(" Self update started")
 
 selfupdatestart = timer()
 # Sets up the config system
@@ -98,7 +97,8 @@ else:
 
 	# Lastly we write the newly installed version into the config file
     try:
-        # Now we're going to open the config file reader        
+        # Now we're going to open the config file reader
+        config.read('config.ini')       
         config['JackettUpdate']['version'] = onlinefileversion
         with open('config.ini', 'w') as configfile:
             config.write(configfile)

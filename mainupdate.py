@@ -93,8 +93,7 @@ if str(onlinecurrentversion) in str(currentversion):
     totalupdatetime = display_time(updateend - updatestart)
     # If the latest online version matches the last installed version then we let you know and quit Jackett update
     print("{}We're up to date! Current and Online versions are at {}. Check took {}.".format(time_stamp(app), onlinecurrentversion, totalupdatetime))
-    if appupdate == "False":
-        print("")  
+    print("")  
 else:
     # If the online version DOESN'T match the last installed version we let you know what the versions are and start updating
     print(time_stamp() + "JackettUpdate: Most recent online version is " + onlinecurrentversion + " and current installed version is " + currentversion + ". We're updating Jackett.")
@@ -141,12 +140,14 @@ else:
             # Lastly we write the newly installed version into the config file if the return codes were ok
         try:
             if BadCode == False:
+                config.read('config.ini')
                 config['SERVER']['jackettversion'] = onlinecurrentversion
                 with open('config.ini', 'w') as configfile:
                     config.write(configfile)
                 updateend = timer()
                 totalupdatetime = display_time(updateend - updatestart)
                 print(time_stamp() + "JackettUpdate: Updating to version " + onlinecurrentversion + " finished! Update took " + totalupdatetime + ". Script exiting!")
+                print('')            
             else:
                 print("{}Install failed! See logs! Version not updated!".format(time_stamp(app)))
         except Exception as e:
