@@ -16,8 +16,8 @@ import subprocess
 from timeit import default_timer as timer
 from configparser import ConfigParser
 import configparser
-from customfunctions import time_stamp, get_file, display_time, remove_file
-from configread import appversion
+from modules.customfunctions import time_stamp, get_file, display_time, remove_file
+from modules.configread import appversion
 
 selfupdatestart = timer()
 # Sets up the config system

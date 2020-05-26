@@ -3,7 +3,8 @@ JackettUpdate 2.0 Very Beta
 * Changed custom functions naming convention to be uniform throughout the script
 * Created configread.py and mainupdate.py while breaking up the main jackettupdate.py script
 * Became very frustrated with Python and the way it handles passing variables between modules
-* To Do: Still need to figure out how to update everything on a first run. v2.0 is a first step. 
+* To Do: Still need to figure out how to update everything on a first run. v2.0 is a first step.
+* Moved all the modules into their own folder and out of the main directory to make things cleaner
 
 JackettUpdate 1.5 Beta (Rolled 5/24 2020)
 * Created getfile for downloading files, display_time to give human readable in customfunctions

@@ -25,7 +25,7 @@ if __name__ == "__main__":
     
     # First we're going to force the working path to be where the script lives
     os.chdir(sys.path[0])
-
+    
     # Just to make python happy
     returncode = 0
 
@@ -41,8 +41,8 @@ if __name__ == "__main__":
         if not os.path.isfile("config.ini"):
             print("")
             print("Config file doesn't exist! Likely this is your first time running the script. Starting configuration manager.")
-            print("")
-            import configupdate
+            print("")            
+            import modules.configupdate
 
     # Here we update the config file if the user used the command line argument
     try:
@@ -51,7 +51,7 @@ if __name__ == "__main__":
             print("")
             print("Config update started....")
             print("")
-            import configupdate
+            import modules.configupdate
     except Exception as e:
         print("JackettUpdate: Couldn't call the configupdater.")
         print("JackettUpdate: Here's the error we got -- " + str(e))
@@ -59,9 +59,9 @@ if __name__ == "__main__":
 
 
         # Now well try and update the app if the user chose that option
-    from configread import appupdate
+    from modules.configread import appupdate
 
     if appupdate == 'True':
-        import selfupdate
+        import modules.selfupdate
 
-    import mainupdate
+    import modules.mainupdate

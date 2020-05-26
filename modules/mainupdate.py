@@ -8,9 +8,9 @@ import subprocess
 from configparser import ConfigParser
 import configparser
 from timeit import default_timer as timer
-from customfunctions import get_file, time_stamp, display_time, tar_extract
+from modules.customfunctions import get_file, time_stamp, display_time, tar_extract
 from jackettupdate import app
-from configread import installbeta, distro, installpath, currentversion, appupdate, serverstart, servicename, serverstop
+from modules.configread import installbeta, distro, installpath, currentversion, appupdate, serverstart, servicename, serverstop
 
 updatestart = timer()
 
