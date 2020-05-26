@@ -15,16 +15,16 @@ Some thoughts. This script assumes your running Jackett as a systemd service. If
 
 ### File List
 
-jackettupdate.py - This is the main file and the only one that should be ran manually
-configread.py - A module for pulling config file data
-configupdate.py - A module called by the script on demand to create/update the conifg file
-customfunctions.py - A module lib containing a number of useful functions used throughout the script
-mainupdate.py - The module for updateing jackett itself
-selfupdate.py - The module for updateing the script to the latest github release
-changelog.txt - The...ermmm... changelog
-systemd/jackettupdate.service - An example systemd unit file for running Jackettupdae through systemd
-systemd/jackettupdate.timer - An example timer file for running Jackettupdate on a schdeule
-systemd/readme - A quick summary on how to use the systemd files
+* jackettupdate.py - This is the main file and the only one that should be ran manually
+* configread.py - A module for pulling config file data
+* configupdate.py - A module called by the script on demand to create/update the conifg file
+* customfunctions.py - A module lib containing a number of useful functions used throughout the script
+* mainupdate.py - The module for updateing jackett itself
+* selfupdate.py - The module for updateing the script to the latest github release
+* changelog.txt - The...ermmm... changelog
+* systemd/jackettupdate.service - An example systemd unit file for running Jackettupdae through systemd
+* systemd/jackettupdate.timer - An example timer file for running Jackettupdate on a schdeule
+* systemd/readme - A quick summary on how to use the systemd files
 
 ### Prerequisites 
 
