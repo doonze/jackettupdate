@@ -14,7 +14,7 @@ I've included my suggested pathing in these files, if you choose to place the sc
 somewhere else you'll need to adjust accordingly in the service file. If you want to 
 change the time it runs, adjust the .timer file. 
 
-If you use my pathing, once you've copied these files over to systemd all you have to do
+If you're use my pathing, once you've copied these files over to systemd all you have to do
 is run the following two commands:
 
 ```
